@@ -4,7 +4,8 @@
 // 0 => no entry
 
 const int checkArray[9] = {1,2,3,4,5,6,7,8,9};
-int  frame[9][9] = { {0,0,3,4,0,0,0,8,9}, {0,0,3,4,0,0,0,8,9}, {0,0,3,4,0,0,0,8,9}, {0,0,3,4,0,0,0,8,9}, {0,0,3,4,0,0,0,8,9}, {0,0,3,4,0,0,0,8,9}, {0,0,3,4,0,0,0,8,9}, {0,0,3,4,0,0,0,8,9}, {0,0,3,4,0,0,0,8,9} };
+int frame[9][9] = { {0,0,3,4,0,0,0,8,9}, {0,0,3,4,0,0,0,8,9}, {0,0,3,4,0,0,0,8,9}, {0,0,3,4,0,0,0,8,9}, {0,0,3,4,0,0,0,8,9}, {0,0,3,4,0,0,0,8,9}, {0,0,3,4,0,0,0,8,9}, {0,0,3,4,0,0,0,8,9}, {0,0,3,4,0,0,0,8,9} };
+int transpose_frame [9][9];
 int hor_frame[9][9];
 int ver_frame[9][9];
 int acount = 0;
@@ -153,7 +154,20 @@ void hor_solve()
 void ver_solve()
 
 {
+    acount = 0;
+    bcount = 0;
+    ccount = 0;
+
+    // tranpose of frame => same technique as hor_solve
+
+    for (int i = 0; i < 9; ++i) {
+        for (int j = 0; j < 9; ++j) {
+            transpose_frame[j][i] = hor_frame[i][j];
+      }
+    }
+
     return;
+
 }
 
 
@@ -162,8 +176,10 @@ int main()
 
 {   
     hor_solve();
+    ver_solve();
     for (int i=0; i<9; i++) {
-        std::cout << hor_frame[5][i] << std::endl; 
+        std::cout << ver_frame[0][i] << std::endl; 
     }
+
     return 0;
 }
