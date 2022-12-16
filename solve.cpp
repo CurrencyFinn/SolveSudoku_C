@@ -162,7 +162,7 @@ void ver_solve()
 
     for (int i = 0; i < 9; ++i) {
         for (int j = 0; j < 9; ++j) {
-            transpose_frame[j][i] = hor_frame[i][j];
+            transpose_frame[j][i] = frame[i][j];
       }
     }
      for(int i = 0; i<9; i++)
@@ -246,6 +246,8 @@ void visualise(int matrix[9][9]) {
         std::cout << std::endl;
     
     }
+
+    return;
 }
 
 int main()
@@ -257,7 +259,10 @@ int main()
     std::cout << ' ' << std::endl; 
     visualise(transpose_frame);
     
+    // twop option 
 
+    // # tranpose indivual frame [9] => count first row of i=0, i=3 firt row, i=6 first row leads to the vertical row. Now same holder for then the other rows. O
+    // # not tranpose make a script that indidually selectes ofset numbers so vertical row is selecected. 
 
     return 0;
 }
