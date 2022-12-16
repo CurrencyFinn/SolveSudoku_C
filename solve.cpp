@@ -1,6 +1,6 @@
 #include <iostream>
 #include <algorithm>
-
+using namespace std;
 // 0 => no entry
 
 const int checkArray[9] = {1,2,3,4,5,6,7,8,9};
@@ -165,21 +165,99 @@ void ver_solve()
             transpose_frame[j][i] = hor_frame[i][j];
       }
     }
+     for(int i = 0; i<9; i++)
+    {
+        if(i <3) // first row block
 
+        {
+            for(int b = 0; b<9; b++) {
+                
+                if(b <3) // first vert row
+                {
+                    //std::cout << transpose_frame[0][b] << std::endl; 
+                }
+
+                else if (b>2 && b<6) // second vert row
+                {
+                    //std::cout << transpose_frame[1][b] << std::endl; 
+                }
+                else // thirds vert row
+                {
+                    //std::cout << transpose_frame[2][b] << std::endl; 
+                }
+
+            }
+        }
+
+        else if (i<6) // second row block
+        
+        { 
+                
+            for(int b = 0; b<9; b++) {
+                
+                if(b <3) // fourth vert row
+                {
+                    //std::cout << transpose_frame[3][b] << std::endl; 
+                }
+
+                else if (b>2 && b<6) // fifth vert row
+                {
+                    //std::cout << transpose_frame[4][b] << std::endl; 
+                }
+                else // sixth vert row
+                {
+                    //std::cout << transpose_frame[5][b] << std::endl; 
+                }
+
+            }
+        }
+
+        else 
+        
+        {
+            for(int b = 0; b<9; b++) {
+                if(b <3) //  seventh row
+                {
+                    //std::cout << transpose_frame[6][b] << std::endl; 
+                }
+
+                else if (b>2 && b<6) // eight vert row
+                {
+                    //std::cout << transpose_frame[7][b] << std::endl; 
+                }
+                else // nineth vert row
+                {
+                    //std::cout << transpose_frame[8][b] << std::endl; 
+                }
+
+            }
+        }
+    }
     return;
 
 }
 
+void visualise(int matrix[9][9]) {
 
+    for (int i=0; i<9; i++) {
+        for(int j=0; j<9; j++){
+            std::cout << matrix[i][j] << ' '; 
+        }
+        std::cout << std::endl;
+    
+    }
+}
 
 int main()
 
 {   
     hor_solve();
     ver_solve();
-    for (int i=0; i<9; i++) {
-        std::cout << ver_frame[0][i] << std::endl; 
-    }
+    visualise(frame);
+    std::cout << ' ' << std::endl; 
+    visualise(transpose_frame);
+    
+
 
     return 0;
 }
