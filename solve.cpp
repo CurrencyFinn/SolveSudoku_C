@@ -33,12 +33,12 @@ void int_solve()
 
 // horizonatal rows
 
-void hor_solve()
+void hor_solve(int inputMatrix[9][9], int outputMatrix[9][9])
 {
    
     for(int i = 0; i<9; i++)
     {
-        if(i <3) // first row block
+        if(i < 3) // first row block
 
         {
 
@@ -46,64 +46,63 @@ void hor_solve()
                 
                 if(b <3) // first segment row
                 {
-                    if (acount >9) {
+                    if (acount >8) {
                         acount = 0;
                     }
-                    hor_frame[0][acount] = frame[i][b];
+                    outputMatrix[0][acount] = inputMatrix[i][b];
                     acount++;
 
                 }
                 else if (b>2 && b<6) // second segment row
                 {
-                    if (bcount >9) {
+                    if (bcount >8) {
                         bcount = 0;
                     }
-                    hor_frame[1][bcount] = frame[i][b];
+                    outputMatrix[1][bcount] = inputMatrix[i][b];
                     bcount++;
 
                 } 
                 else // third segment row
                 {
-                    if (ccount > 9) {
+                    if (ccount > 8) {
                         ccount = 0;
                     }
-                    hor_frame[2][ccount] = frame[i][b];
+                    outputMatrix[2][ccount] = inputMatrix[i][b];
                     ccount++;
 
                 }
             }
         }
         
-        else if (i<6) // second row block
+        else if (i>2 && i<6) // second row block
             
         {
-            
             for(int b = 0; b<9; b++) {
                 
                 if(b <3) // first segment row
                 {
-                    if (acount >9) {
+                    if (acount >8) {
                         acount = 0;
                     }
-                    hor_frame[3][acount] = frame[i][b];
+                    outputMatrix[3][acount] = inputMatrix[i][b];
                     acount++;
 
                 }
                 else if (b>2 && b<6) // second segment row
                 {
-                    if (bcount >9) {
+                    if (bcount >8) {
                         bcount = 0;
                     }
-                    hor_frame[4][bcount] = frame[i][b];
+                    outputMatrix[4][bcount] = inputMatrix[i][b];
                     bcount++;
 
                 } 
                 else // third segment row
                 {
-                    if (ccount > 9) {
+                    if (ccount > 8) {
                         ccount = 0;
                     }
-                    hor_frame[5][ccount] = frame[i][b];
+                    outputMatrix[5][ccount] = inputMatrix[i][b];
                     ccount++;
 
                 }
@@ -116,28 +115,28 @@ void hor_solve()
                 
                 if(b <3) // first segment row
                 {
-                    if (acount >9) {
+                    if (acount >8) {
                         acount = 0;
                     }
-                    hor_frame[6][acount] = frame[i][b];
+                    outputMatrix[6][acount] = inputMatrix[i][b];
                     acount++;
 
                 }
                 else if (b>2 && b<6) // second segment row
                 {
-                    if (bcount >9) {
+                    if (bcount >8) {
                         bcount = 0;
                     }
-                    hor_frame[7][bcount] = frame[i][b];
+                    outputMatrix[7][bcount] = inputMatrix[i][b];
                     bcount++;
 
                 } 
                 else // third segment row
                 {
-                    if (ccount > 9) {
+                    if (ccount > 8) {
                         ccount = 0;
                     }
-                    hor_frame[8][ccount] = frame[i][b];
+                    outputMatrix[8][ccount] = inputMatrix[i][b];
                     ccount++;
 
                 }
@@ -146,91 +145,42 @@ void hor_solve()
 
     }
 
+
+
     return;
 }
 
 // vertical columns
 
-void ver_solve()
+void ver_solve() // now orders that 3*3 outside matrixs and the inside 3*3 matrixs towards a horizontal arrangement, already solved.
 
 {
-    acount = 0;
-    bcount = 0;
-    ccount = 0;
 
-    // tranpose of frame => same technique as hor_solve
+    for (int i = 0; i<9; i+=3) {
 
-    for (int i = 0; i < 9; ++i) {
-        for (int j = 0; j < 9; ++j) {
-            transpose_frame[j][i] = frame[i][j];
-      }
-    }
-     for(int i = 0; i<9; i++)
-    {
-        if(i <3) // first row block
-
+        for(int b=0; b<9; b+=3)
+        
         {
-            for(int b = 0; b<9; b++) {
-                
-                if(b <3) // first vert row
-                {
-                    //std::cout << transpose_frame[0][b] << std::endl; 
-                }
 
-                else if (b>2 && b<6) // second vert row
-                {
-                    //std::cout << transpose_frame[1][b] << std::endl; 
-                }
-                else // thirds vert row
-                {
-                    //std::cout << transpose_frame[2][b] << std::endl; 
-                }
+            std::cout << frame[i][b] << ' ';
+            if (b==6) { // second vert row
+                b=-2;
+            }
 
+            if (b==7) { // third vert row
+                b=-1;
             }
         }
 
-        else if (i<6) // second row block
+        std::cout << ' ' << std::endl;
+
         
-        { 
-                
-            for(int b = 0; b<9; b++) {
-                
-                if(b <3) // fourth vert row
-                {
-                    //std::cout << transpose_frame[3][b] << std::endl; 
-                }
-
-                else if (b>2 && b<6) // fifth vert row
-                {
-                    //std::cout << transpose_frame[4][b] << std::endl; 
-                }
-                else // sixth vert row
-                {
-                    //std::cout << transpose_frame[5][b] << std::endl; 
-                }
-
-            }
+        if (i==6) { // interchange 3*3 outside matrix so it creates horizontal arrangement of the vertical
+            i=-2;
         }
 
-        else 
-        
-        {
-            for(int b = 0; b<9; b++) {
-                if(b <3) //  seventh row
-                {
-                    //std::cout << transpose_frame[6][b] << std::endl; 
-                }
-
-                else if (b>2 && b<6) // eight vert row
-                {
-                    //std::cout << transpose_frame[7][b] << std::endl; 
-                }
-                else // nineth vert row
-                {
-                    //std::cout << transpose_frame[8][b] << std::endl; 
-                }
-
-            }
+        if (i==7) {
+            i=-1;
         }
     }
     return;
@@ -253,16 +203,9 @@ void visualise(int matrix[9][9]) {
 int main()
 
 {   
-    hor_solve();
-    ver_solve();
-    visualise(frame);
-    std::cout << ' ' << std::endl; 
-    visualise(transpose_frame);
-    
-    // twop option 
-
-    // # tranpose indivual frame [9] => count first row of i=0, i=3 firt row, i=6 first row leads to the vertical row. Now same holder for then the other rows. O
-    // # not tranpose make a script that indidually selectes ofset numbers so vertical row is selecected. 
-
+    hor_solve(frame, hor_frame);
+    visualise(hor_frame);
+    //ver_solve();
+    // # make the vertical grid 'tranposed' the same as the frame used for the horizontal solver, use c++ object oriented to argument into hor_solver
     return 0;
 }
