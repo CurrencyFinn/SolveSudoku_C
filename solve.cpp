@@ -1,31 +1,51 @@
 #include <iostream>
 #include <algorithm>
+#include <vector>
 using namespace std;
 
 // 0 => no entry
 
-const int checkArray[9] = {1,2,3,4,5,6,7,8,9};
+//int checkArray[9] = {1,2,3,4,5,6,7,8,9};
 int frame[9][9] = { {1,5,3,4,7,6,2,8,9}, {0,0,3,4,0,0,0,8,9}, {0,0,3,4,0,0,0,8,9}, {0,0,3,4,0,0,0,8,9}, {0,0,3,4,0,0,0,8,9}, {0,0,3,4,0,0,0,8,9}, {0,0,3,4,0,0,0,8,9}, {0,0,3,4,0,0,0,8,9}, {0,0,3,4,0,0,0,8,9} };
 int hor_frame[9][9];
 int ver_frame[9][9];
-int acount = 0;
-int bcount = 0;
-int ccount = 0;
+
+
 // internal block 
 
-void int_solve()
-{
+void int_solve(int inputMatrix[9][9])
+{   
+    std::vector<int> checkArray{1,2,3,4,5,6,7,8,9};
+    // initialize array...
+
+    // delete element at index 2
+    checkArray.erase(checkArray.begin() + 2);
+
+    
+    int int_count =0;
     for(int i = 0; i<9; i++)
     {
-        std::cout << frame[0][i] << std::endl;
+        std::cout << inputMatrix[0][i] << std::endl;
         
-        bool exists = std::find(checkArray, checkArray + 9, frame[0][i]) != checkArray + 9;
-
+        bool exists = std::find(checkArray, checkArray+9, inputMatrix[0][i]) != checkArray+9;
+        
         if(exists) {
-            std::cout << "Element found" << std::endl;
+            auto arrayEnd = std::remove_if(checkArray, checkArray+9, inputMatrix[0][i]);
+            // remove value from temp list, the remaining value is it is 8 add it, otherwise restore it 
+            int_count++;
         }
         
     }
+        for (int i=0; i<9; i++) {
+            std::cout << checkArray[i] << std::endl;
+        }
+        if (int_count ==8) { //  1 element missing, find value that is non existing and fill in matrix for every input matrix [vert, hor, int]
+            
+        } 
+        else 
+        {
+            // restore list to the new list and loop to another list
+        }
   
     return;
 }
@@ -34,7 +54,9 @@ void int_solve()
 
 void hor_solve(int inputMatrix[9][9], int outputMatrix[9][9])
 {
-   
+    int acount = 0;
+    int bcount = 0;
+    int ccount = 0;
     for(int i = 0; i<9; i++)
     {
         if(i < 3) // first row block
@@ -209,14 +231,14 @@ void visualise(int matrix[9][9]) {
 int main()
 
 {   
-    hor_solve(frame, hor_frame);
-    visualise(hor_frame);
-    std::cout << ' ' << endl; 
-    transpose(hor_frame, ver_frame);
-    visualise(ver_frame);
+    //setup
+    // hor_solve(frame, hor_frame);
+    // visualise(hor_frame);
+    // std::cout << ' ' << endl; 
+    // transpose(hor_frame, ver_frame);
+    // visualise(ver_frame);
 
-    //ver_solve();
-    // # make the vertical grid 'tranposed' the same as the frame used for the horizontal solver, use c++ object oriented to argument into hor_solver
+    int_solve(frame);
 
     return 0;
 }
