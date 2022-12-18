@@ -1,11 +1,11 @@
 #include <iostream>
 #include <algorithm>
 using namespace std;
+
 // 0 => no entry
 
 const int checkArray[9] = {1,2,3,4,5,6,7,8,9};
-int frame[9][9] = { {0,0,3,4,0,0,0,8,9}, {0,0,3,4,0,0,0,8,9}, {0,0,3,4,0,0,0,8,9}, {0,0,3,4,0,0,0,8,9}, {0,0,3,4,0,0,0,8,9}, {0,0,3,4,0,0,0,8,9}, {0,0,3,4,0,0,0,8,9}, {0,0,3,4,0,0,0,8,9}, {0,0,3,4,0,0,0,8,9} };
-int transpose_frame [9][9];
+int frame[9][9] = { {1,5,3,4,7,6,2,8,9}, {0,0,3,4,0,0,0,8,9}, {0,0,3,4,0,0,0,8,9}, {0,0,3,4,0,0,0,8,9}, {0,0,3,4,0,0,0,8,9}, {0,0,3,4,0,0,0,8,9}, {0,0,3,4,0,0,0,8,9}, {0,0,3,4,0,0,0,8,9}, {0,0,3,4,0,0,0,8,9} };
 int hor_frame[9][9];
 int ver_frame[9][9];
 int acount = 0;
@@ -27,7 +27,6 @@ void int_solve()
         
     }
   
-    
     return;
 }
 
@@ -151,40 +150,47 @@ void hor_solve(int inputMatrix[9][9], int outputMatrix[9][9])
 }
 
 // vertical columns
+// void ver_solve() // O(N^2)
 
-void ver_solve() // now orders that 3*3 outside matrixs and the inside 3*3 matrixs towards a horizontal arrangement, already solved.
+// {
 
-{
+//     for (int i = 0; i<9; i+=3) {
 
-    for (int i = 0; i<9; i+=3) {
-
-        for(int b=0; b<9; b+=3)
+//         for(int b=0; b<9; b+=3)
         
-        {
+//         {
 
-            std::cout << frame[i][b] << ' ';
-            if (b==6) { // second vert row
-                b=-2;
-            }
+//             std::cout << frame[i][b] << ' ';
+//             if (b==6) { // second vert row
+//                 b=-2;
+//             }
 
-            if (b==7) { // third vert row
-                b=-1;
-            }
-        }
+//             if (b==7) { // third vert row
+//                 b=-1;
+//             }
+//         }
 
-        std::cout << ' ' << std::endl;
+//         std::cout << ' ' << std::endl;
 
         
-        if (i==6) { // interchange 3*3 outside matrix so it creates horizontal arrangement of the vertical
-            i=-2;
-        }
+//         if (i==6) { // interchange 3*3 outside matrix so it creates horizontal arrangement of the vertical
+//             i=-2;
+//         }
 
-        if (i==7) {
-            i=-1;
-        }
+//         if (i==7) {
+//             i=-1;
+//         }
+//     }
+//     return;
+
+// }
+
+void transpose(int inputMatrix[9][9], int outputMatrix[9][9]) { // O(N)
+     for (int i = 0; i < 9; ++i) {
+        for (int j = 0; j < 9; ++j) {
+            outputMatrix[j][i] = inputMatrix[i][j];
+      }
     }
-    return;
-
 }
 
 void visualise(int matrix[9][9]) {
@@ -205,7 +211,12 @@ int main()
 {   
     hor_solve(frame, hor_frame);
     visualise(hor_frame);
+    std::cout << ' ' << endl; 
+    transpose(hor_frame, ver_frame);
+    visualise(ver_frame);
+
     //ver_solve();
     // # make the vertical grid 'tranposed' the same as the frame used for the horizontal solver, use c++ object oriented to argument into hor_solver
+
     return 0;
 }
