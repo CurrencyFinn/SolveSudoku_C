@@ -18,4 +18,4 @@ To solve for horizontal rows. First use hor_solve, then int_solve, then reuse ho
 with the addition of a tranpose. 
 
 
-This can then finally be looped over with a "while True" loop that stops (False) at the point there is not addition of a zero in the full loop (internal, vertical, horizontal solving)
+This can then finally be looped over with a "while True" loop that stops (False) at the point there is not addition of a zero in the full loop (internal, vertical, horizontal solving).
