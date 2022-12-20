@@ -5,8 +5,10 @@ using namespace std;
 
 // 0 => no entry
 
+// TAKS # After solving internal return output frame also for horizontal solver these filled in values have to be filled back into the frame
+
 //int checkArray[9] = {1,2,3,4,5,6,7,8,9};
-int frame[9][9] = { {4,8,1,7,6,9,3,5,0}, {5,6,0,3,2,4,0,7,0}, {3,0,0,0,5,0,6,0,0}, {0,9,7,1,0,0,5,4,0}, {0,8,5,0,0,6,1,0,0}, {2,1,0,5,4,0,0,8,6}, {0,7,6,2,0,5,9,3,4}, {9,5,3,0,4,0,0,0,0}, {0,2,0,0,3,0,0,6,5} };
+int frame[9][9] = { {4,8,1,7,6,9,3,5,0}, {5,6,0,3,2,4,0,7,0}, {3,0,0,1,5,0,6,0,0}, {0,9,7,1,0,0,5,4,0}, {0,8,5,0,0,6,1,0,0}, {2,1,0,5,4,0,0,8,6}, {0,7,6,2,0,5,9,3,4}, {9,5,3,0,4,0,0,0,0}, {0,2,0,0,3,0,0,6,5} };
 int hor_frame[9][9];
 int ver_frame[9][9];
 
@@ -167,13 +169,13 @@ int main()
 {   
     // ## setup
     hor_solve(frame, hor_frame);
-    // visualise(hor_frame);
-    // std::cout << ' ' << endl; 
+    visualise(frame);
+    std::cout << ' ' << endl; 
     // transpose(hor_frame, ver_frame);
     // visualise(ver_frame);
-    
     int_solve(hor_frame);
-    visualise(hor_frame);
+    hor_solve(hor_frame, frame);
+    visualise(frame);
 
     return 0;
 }
