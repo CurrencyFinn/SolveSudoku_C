@@ -19,3 +19,8 @@ with the addition of a tranpose.
 
 
 This can then finally be looped over with a "while True" loop that stops (False) at the point there is not addition of a zero in the full loop (internal, vertical, horizontal solving).
+
+## updates:
+
+* Combining row and internal operation together (number of 0 > 2).
+* Picture input read towards right frame.
