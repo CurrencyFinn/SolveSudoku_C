@@ -23,4 +23,5 @@ This can then finally be looped over with a "while True" loop that stops (False)
 ## updates:
 
 * Combining row and internal operation together (number of 0 > 2).
+    ** will be done by filling in all possible values at position (and therefore easy way of combining operations)
 * Picture input read towards right frame.
