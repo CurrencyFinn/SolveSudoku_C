@@ -12,7 +12,7 @@ int frame[9][9] = { {0,0,0,0,0,0,0,0,0}, {5,6,0,3,2,4,0,7,0}, {3,0,0,1,5,0,6,0,0
 int hor_frame[9][9];
 int ver_frame[9][9];
 int checkArray[9] = {1,2,3,4,5,6,7,8,9};
-vector<vector<vector<int>>> solveFrame;
+vector<vector<vector<int>>> solveFrame(9, std::vector<std::vector<int> > (9, std::vector<int>(9)));
 
 
 // internal block 
@@ -49,26 +49,33 @@ void int_solve(int inputMatrix[9][9])
 
 void intSolveSetup(int inputMatrix[9][9])
 {
-    solveFrame.push_back(vector<vector<int>>());
-                    
-    for (int i=0; i<9; i++) {
-        solveFrame[i].push_back(vector<int>());
-        for(int j = 0; j<9; j++)
+    for (int i=0; i<solveFrame.size(); i++) {
+        
+        for(int j = 0; j != solveFrame[i].size(); j++)
         {   
-            if (inputMatrix[i][j] != 0) 
-            {
-                 solveFrame[i][j].push_back(0);
-            } 
+            if (inputMatrix[i][j] != 0) {
+                solveFrame[i][j].resize(1);
+                solveFrame[i][j][0] = 0;
+            }
             else {
-                
-                for (int k = 0; k < 9; k++)
+                for (int k = 0; k != solveFrame[i][j].size(); k++)
                 {   
-                    
-                    solveFrame[i][j].push_back(checkArray[k]);
+                    solveFrame[i][j][k] = checkArray[k];
                 }
             }
+            for (int k = 0; k != solveFrame[i][j].size(); k++)
+                {   
+                    cout << solveFrame[i][j][k];
+                }
+                cout << ' ' << endl;
          }
     }
+    return;
+}
+
+void intSolve()
+{
+    return;
 }
 
 
@@ -195,7 +202,7 @@ int main()
     // ## setup
     intSolveSetup(frame);
 
-    cout << solveFrame[0][0][0];
+    //cout << solveFrame[0][0][0];
 
     // hor_solve(frame, hor_frame);
     // visualise(frame);
