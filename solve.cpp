@@ -55,7 +55,10 @@ void intSolveSetup(int inputMatrix[9][9])
         {   
             if (inputMatrix[i][j] != 0) {
                 solveFrame[i][j].resize(1);
+
+                // #  2 options or 0 for filled in number, or the filled number itself. For clearance 0 was used for filled in number
                 solveFrame[i][j][0] = 0;
+                //solveFrame[i][j][0] = inputMatrix[i][j];
             }
             else {
                 for (int k = 0; k != solveFrame[i][j].size(); k++)
@@ -63,18 +66,29 @@ void intSolveSetup(int inputMatrix[9][9])
                     solveFrame[i][j][k] = checkArray[k];
                 }
             }
-            for (int k = 0; k != solveFrame[i][j].size(); k++)
-                {   
-                    cout << solveFrame[i][j][k];
-                }
-                cout << ' ' << endl;
          }
     }
     return;
 }
 
-void intSolve()
+void intSolve(int inputMatrix[9][9])
 {
+    for (int i =0; i<9; i++)
+    {
+        vector<int> tempVec;
+        for (int j=0; j<9; j++) {
+            tempVec.push_back(inputMatrix[i][j]);
+        }
+        for (int k=0; k<9; k++)
+        if (solveFrame[i][k][0] != 0) {
+            for (int l=0; l<9; l++) {
+                vector<int>::iterator it = find(solveFrame[i][k].begin(), solveFrame[i][k].end(), tempVec[l]); 
+                if (it != solveFrame[i][k].end()) {
+                    solveFrame[i][k].erase(it);
+                } 
+            }
+        }
+    }
     return;
 }
 
@@ -197,10 +211,27 @@ void visualise(int matrix[9][9]) {
     return;
 }
 
+void visualiseVec(vector<vector<vector<int>>>& vec) {
+    for (int i=0; i<vec.size(); i++) {
+        for(int j=0; j != vec[i].size(); j++){
+            for (int k = 0; k != vec[i][j].size(); k++)
+                {   
+                    cout << vec[i][j][k];
+                }
+                cout << ' ';
+         }
+         cout << endl;
+    }
+    return;
+}
+
 int main()
 {   
     // ## setup
     intSolveSetup(frame);
+    //visualiseVec(solveFrame);
+    intSolve(frame);
+    visualiseVec(solveFrame);
 
     //cout << solveFrame[0][0][0];
 
