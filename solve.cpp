@@ -6,7 +6,9 @@ using namespace std;
 
 // 0 => no entry
 
-// TAKS # after solving the vector gets deleted unwanted
+// TAKS combination with horizontal solving vector towards the frame aka doing a hor_solve for solving vector and transposition for the vertical solving vector then making that function a class with solving, tranposing, transforming
+// !!!universal solving frame!!!
+
 
 //int checkArray[9] = {1,2,3,4,5,6,7,8,9};
 int frame[9][9] = { {4,8,1,7,6,9,3,5,0}, {5,6,0,3,2,4,0,7,0}, {3,0,0,1,5,0,6,0,0}, {0,9,7,1,0,0,5,4,0}, {0,8,5,0,0,6,1,0,0}, {2,1,0,5,4,0,0,8,6}, {0,7,6,2,0,5,9,3,4}, {9,5,3,0,4,0,0,0,0}, {0,2,0,0,3,0,0,6,5} };
@@ -14,39 +16,9 @@ int hor_frame[9][9];
 int ver_frame[9][9];
 int checkArray[9] = {1,2,3,4,5,6,7,8,9};
 vector<vector<vector<int>>> solveFrame(9, vector<vector<int> > (9, vector<int>(9)));
-
+// int int_count =0;
 
 // internal block 
-
-void int_solve(int inputMatrix[9][9])
-{   
-    
-    for (int i=0; i<9; i++) {
-
-        vector<int> checkVector{1,2,3,4,5,6,7,8,9};
-    
-        int int_count =0;
-        for(int j = 0; j<9; j++)
-        {   
-            vector<int>::iterator it = find(checkVector.begin(), checkVector.end(), inputMatrix[i][j]); 
-
-            if (it != checkVector.end()) {
-                checkVector.erase(it);
-            } else {
-                int_count++;
-            }
-        } 
-        if (int_count ==1) { // there is one [0]
-            for (int k=0; k<9; k++) {
-                if (inputMatrix[i][k] == 0) {
-                    inputMatrix[i][k] = checkVector[0];
-                }
-            }
-        }
-    }
-
-    return;
-}
 
 void intSolveSetup(int inputMatrix[9][9])
 {
@@ -85,6 +57,9 @@ void intSolve(int inputMatrix[9][9])
                 if (it != solveFrame[i][k].end()) {
                     solveFrame[i][k].erase(it);
                 }
+                // else {
+                //     int_count++;
+                // }
                 if (solveFrame[i][k].size() == 1) {
                     inputMatrix[i][k] = solveFrame[i][k][0];
                     solveFrame[i][k][0] = 0;
@@ -265,23 +240,26 @@ void writeOutfile(int inputMatrix[9][9]) {
 int main()
 {   
     // ## setup
+    // while(int_count !=27) {
+
+    // }
     hor_solve(frame, hor_frame);
     transpose(hor_frame, ver_frame);
-    intSolveSetup(frame);
+    intSolveSetup(hor_frame);
 
 
     // ## initial frame:
-    //visualise(frame);
+    visualise(hor_frame);
 
 
     // ## solving + visualising
-    intSolve(frame);
+    intSolve(hor_frame);
     //visualiseVec(solveFrame);
 
 
     // ## finial frame:
-    //visualise(frame);
-    hor_solve(frame, hor_frame);
+    visualise(hor_frame);
+    //hor_solve(frame, hor_frame);
     
     writeOutfile(hor_frame);
     return 0;
