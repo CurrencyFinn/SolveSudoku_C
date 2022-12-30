@@ -5,14 +5,14 @@ using namespace std;
 
 // 0 => no entry
 
-// TAKS # After solving internal return output frame also for horizontal solver these filled in values have to be filled back into the frame
+// TAKS # after solving the vector gets deleted unwanted
 
 //int checkArray[9] = {1,2,3,4,5,6,7,8,9};
-int frame[9][9] = { {0,0,0,0,0,0,0,0,0}, {5,6,0,3,2,4,0,7,0}, {3,0,0,1,5,0,6,0,0}, {0,9,7,1,0,0,5,4,0}, {0,8,5,0,0,6,1,0,0}, {2,1,0,5,4,0,0,8,6}, {0,7,6,2,0,5,9,3,4}, {9,5,3,0,4,0,0,0,0}, {0,2,0,0,3,0,0,6,5} };
+int frame[9][9] = { {4,8,1,7,6,9,3,5,0}, {5,6,0,3,2,4,0,7,0}, {3,0,0,1,5,0,6,0,0}, {0,9,7,1,0,0,5,4,0}, {0,8,5,0,0,6,1,0,0}, {2,1,0,5,4,0,0,8,6}, {0,7,6,2,0,5,9,3,4}, {9,5,3,0,4,0,0,0,0}, {0,2,0,0,3,0,0,6,5} };
 int hor_frame[9][9];
 int ver_frame[9][9];
 int checkArray[9] = {1,2,3,4,5,6,7,8,9};
-vector<vector<vector<int>>> solveFrame(9, std::vector<std::vector<int> > (9, std::vector<int>(9)));
+vector<vector<vector<int>>> solveFrame(9, vector<vector<int> > (9, vector<int>(9)));
 
 
 // internal block 
@@ -50,21 +50,19 @@ void int_solve(int inputMatrix[9][9])
 void intSolveSetup(int inputMatrix[9][9])
 {
     for (int i=0; i<solveFrame.size(); i++) {
-        
         for(int j = 0; j != solveFrame[i].size(); j++)
         {   
             if (inputMatrix[i][j] != 0) {
                 solveFrame[i][j].resize(1);
-
-                // #  2 options or 0 for filled in number, or the filled number itself. For clearance 0 was used for filled in number
                 solveFrame[i][j][0] = 0;
-                //solveFrame[i][j][0] = inputMatrix[i][j];
             }
             else {
-                for (int k = 0; k != solveFrame[i][j].size(); k++)
-                {   
-                    solveFrame[i][j][k] = checkArray[k];
-                }
+
+                    for (int k = 0; k != solveFrame[i][j].size(); k++)
+                    {   
+                        solveFrame[i][j][k] = checkArray[k];
+                    }
+                
             }
          }
     }
@@ -85,7 +83,11 @@ void intSolve(int inputMatrix[9][9])
                 vector<int>::iterator it = find(solveFrame[i][k].begin(), solveFrame[i][k].end(), tempVec[l]); 
                 if (it != solveFrame[i][k].end()) {
                     solveFrame[i][k].erase(it);
-                } 
+                }
+                if (solveFrame[i][k].size() == 1) {
+                    inputMatrix[i][k] = solveFrame[i][k][0];
+                    solveFrame[i][k][0] = 0;
+                }
             }
         }
     }
@@ -193,7 +195,7 @@ void hor_solve(int inputMatrix[9][9], int outputMatrix[9][9])
     return;
 }
 
-void transpose(int inputMatrix[9][9], int outputMatrix[9][9]) { // O(N)
+void transpose(int inputMatrix[9][9], int outputMatrix[9][9]) {
      for (int i = 0; i < 9; i++) {
         for (int j = 0; j < 9; j++) {
             outputMatrix[j][i] = inputMatrix[i][j];
@@ -204,10 +206,11 @@ void transpose(int inputMatrix[9][9], int outputMatrix[9][9]) { // O(N)
 void visualise(int matrix[9][9]) {
     for (int i=0; i<9; i++) {
         for(int j=0; j<9; j++){
-            std::cout << matrix[i][j] << ' '; 
+            cout << matrix[i][j] << ' '; 
         }
-        std::cout << std::endl;
+        cout << endl;
     }
+    cout << endl;
     return;
 }
 
@@ -222,27 +225,29 @@ void visualiseVec(vector<vector<vector<int>>>& vec) {
          }
          cout << endl;
     }
+    cout << endl;
     return;
 }
 
 int main()
 {   
     // ## setup
+    hor_solve(frame, hor_frame);
+    transpose(hor_frame, ver_frame);
     intSolveSetup(frame);
-    //visualiseVec(solveFrame);
+
+
+    // ## initial frame:
+    visualise(frame);
+
+
+    // ## solving + visualising
     intSolve(frame);
-    visualiseVec(solveFrame);
+    //visualiseVec(solveFrame);
 
-    //cout << solveFrame[0][0][0];
 
-    // hor_solve(frame, hor_frame);
-    // visualise(frame);
-    // std::cout << ' ' << endl; 
-    // transpose(hor_frame, ver_frame);
-    // visualise(ver_frame);
-    // int_solve(hor_frame);
-    // hor_solve(hor_frame, frame);
-    // visualise(frame);
+    // ## finial frame:
+    visualise(frame);
 
     return 0;
 }
