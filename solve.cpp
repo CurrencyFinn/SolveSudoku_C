@@ -1,6 +1,7 @@
 #include <iostream>
 #include <algorithm>
 #include <vector>
+#include <fstream>
 using namespace std;
 
 // 0 => no entry
@@ -229,6 +230,39 @@ void visualiseVec(vector<vector<vector<int>>>& vec) {
     return;
 }
 
+void writeOutfile(int inputMatrix[9][9]) {
+
+  ofstream outFile ("output.txt");
+  if (outFile.is_open())
+  {
+    for(int i = 0; i < 9; i++){
+        for(int j=0; j<9; j++) {
+            outFile << inputMatrix[i][j] << " " ;
+            if (j==2) {
+                outFile << "  ";
+            }
+            if (j==5) {
+                outFile << "  ";
+            }
+            if (j==8) {
+                outFile << "  ";
+            }
+        }
+        outFile << "\n";
+        if (i==2) {
+            outFile << "\n";
+        }
+        if (i==5) {
+            outFile << "\n";
+        }
+    }
+    outFile.close();
+  }
+  else cout << "Unable to open file";
+  return;
+
+}
+
 int main()
 {   
     // ## setup
@@ -238,7 +272,7 @@ int main()
 
 
     // ## initial frame:
-    visualise(frame);
+    //visualise(frame);
 
 
     // ## solving + visualising
@@ -247,7 +281,11 @@ int main()
 
 
     // ## finial frame:
-    visualise(frame);
+    //visualise(frame);
+
+    hor_solve(frame, hor_frame);
+
+    writeOutfile(hor_frame);
 
     return 0;
 }
