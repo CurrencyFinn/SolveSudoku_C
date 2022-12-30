@@ -231,7 +231,6 @@ void visualiseVec(vector<vector<vector<int>>>& vec) {
 }
 
 void writeOutfile(int inputMatrix[9][9]) {
-
   ofstream outFile ("output.txt");
   if (outFile.is_open())
   {
@@ -282,10 +281,8 @@ int main()
 
     // ## finial frame:
     //visualise(frame);
-
     hor_solve(frame, hor_frame);
-
+    
     writeOutfile(hor_frame);
-
     return 0;
 }
