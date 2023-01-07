@@ -12,8 +12,7 @@ using namespace std;
 
 //int checkArray[9] = {1,2,3,4,5,6,7,8,9};
 int frame[9][9] = { {4,8,1,7,6,9,3,5,0}, {5,6,0,3,2,4,0,7,0}, {3,0,0,1,5,0,6,0,0}, {0,9,7,1,0,0,5,4,0}, {0,8,5,0,0,6,1,0,0}, {2,1,0,5,4,0,0,8,6}, {0,7,6,2,0,5,9,3,4}, {9,5,3,0,4,0,0,0,0}, {0,2,0,0,3,0,0,6,5} };
-vector<vector<int>> vecFrame = { {4,8,1,7,6,9,3,5,0}, {5,6,0,3,2,4,0,7,0}, {3,0,0,1,5,0,6,0,0}, {0,9,7,1,0,0,5,4,0}, {0,8,5,0,0,6,1,0,0}, {2,1,0,5,4,0,0,8,6}, {0,7,6,2,0,5,9,3,4}, {9,5,3,0,4,0,0,0,0}, {0,2,0,0,3,0,0,6,5} };
-
+vector<vector<int>> vecFrame = { {4,8,1,7,6,9,3,5,0}, {5,6,0,3,2,4,0,7,0}, {3,0,0,0,5,0,6,0,0}, {0,9,7,1,0,0,5,4,0}, {0,8,5,0,0,6,1,0,0}, {2,1,0,5,4,0,0,8,6}, {0,7,6,2,0,5,9,3,4}, {9,5,3,0,4,0,0,0,0}, {0,2,0,0,3,0,0,6,5} };
 int horFrame[9][9];
 vector<vector<int>> horVector (9, vector<int>(9));
 int verFrame[9][9];
@@ -22,7 +21,7 @@ vector<vector<int>> verVector (9, vector<int>(9));
 int checkArray[9] = {1,2,3,4,5,6,7,8,9};
 
 vector<vector<vector<int>>> solveFrame(9, vector<vector<int> > (9, vector<int>(9)));
-// int int_count =0;
+int intCount =0;
 
 // internal block 
 
@@ -87,9 +86,9 @@ void intSolve(int inputMatrix[9][9])
                 if (it != solveFrame[i][k].end()) {
                     solveFrame[i][k].erase(it);
                 }
-                // else {
-                //     int_count++;
-                // }
+                else {
+                    intCount++;
+                }
                 if (solveFrame[i][k].size() == 1) {
                     inputMatrix[i][k] = solveFrame[i][k][0];
                     solveFrame[i][k][0] = 0;
@@ -116,9 +115,9 @@ void intSolveVector(vector<vector<int>>& inputVector)
                 if (it != solveFrame[i][k].end()) {
                     solveFrame[i][k].erase(it);
                 }
-                // else {
-                //     int_count++;
-                // }
+                else {
+                    intCount++;
+                }
                 if (solveFrame[i][k].size() == 1) {
                     inputVector[i][k] = solveFrame[i][k][0];
                     solveFrame[i][k][0] = 0;
@@ -329,6 +328,104 @@ void vecHorSolve(vector<vector<int>>& inputVector, vector<vector<int>>& outputVe
     return;
 }
 
+void vecHorSolve3D(vector<vector<vector<int>>>& inputVector, vector<vector<vector<int>>>& outputVector)
+{
+    int acount = 0;
+    int bcount = 0;
+    int ccount = 0;
+    for(int i = 0; i<inputVector.size(); i++)
+    {
+        if(i < 3) // first row block
+        {
+            for(int b = 0; b != inputVector[i].size(); b++) {          
+                if(b <3) // first segment row
+                {
+                    if (acount >8) {
+                        acount = 0;
+                    }
+                    outputVector[0][acount] = inputVector[i][b];
+                    acount++;
+                }
+                else if (b>2 && b<6) // second segment row
+                {
+                    if (bcount >8) {
+                        bcount = 0;
+                    }
+                    outputVector[1][bcount] = inputVector[i][b];
+                    bcount++;
+                } 
+                else // third segment row
+                {
+                    if (ccount > 8) {
+                        ccount = 0;
+                    }
+                    outputVector[2][ccount] =  inputVector[i][b];
+                    ccount++;
+                }
+            }
+        }  
+        else if (i>2 && i<6) // second row block
+        {
+            for(int b = 0; b!= inputVector[i].size(); b++) {
+                if(b <3) // first segment row
+                {
+                    if (acount >8) {
+                        acount = 0;
+                    }
+                    outputVector[3][acount] = inputVector[i][b];
+                    acount++;
+                }
+                else if (b>2 && b<6) // second segment row
+                {
+                    if (bcount >8) {
+                        bcount = 0;
+                    }
+                    outputVector[4][bcount] = inputVector[i][b];
+                    bcount++;
+                } 
+                else // third segment row
+                {
+                    if (ccount > 8) {
+                        ccount = 0;
+                    }
+                    outputVector[5][ccount] = inputVector[i][b];
+                    ccount++;
+                }
+            }
+        } 
+        else // third row block
+        {
+            for(int b = 0; b!= inputVector[i].size(); b++) {
+                if(b <3) // first segment row
+                {
+                    if (acount >8) {
+                        acount = 0;
+                    }
+                    outputVector[6][acount] = inputVector[i][b];
+                    acount++;
+                }
+                else if (b>2 && b<6) // second segment row
+                {
+                    if (bcount >8) {
+                        bcount = 0;
+                    }
+                    outputVector[7][bcount] = inputVector[i][b];
+                    bcount++;
+                } 
+                else // third segment row
+                {
+                    if (ccount > 8) {
+                        ccount = 0;
+                    }
+                    outputVector[8][ccount] = inputVector[i][b];
+                    ccount++;
+                }
+            }
+        }
+    }
+    return;
+}
+
 
 void transpose(int inputMatrix[9][9], int outputMatrix[9][9]) {
      for (int i = 0; i < 9; i++) {
@@ -338,7 +435,15 @@ void transpose(int inputMatrix[9][9], int outputMatrix[9][9]) {
     }
 }
 
-void transposeVector(vector<vector<int>>& inputVector, vector<vector<int>>& outputVector) {
+void transposeVector2D(vector<vector<int>>& inputVector, vector<vector<int>>& outputVector) {
+     for (int i = 0; i < 9; i++) {
+        for (int j = 0; j < 9; j++) {
+            outputVector[j][i] = inputVector[i][j];
+      }
+    }
+}
+
+void transposeVector3D(vector<vector<vector<int>>>& inputVector, vector<vector<vector<int>>>& outputVector) {
      for (int i = 0; i < 9; i++) {
         for (int j = 0; j < 9; j++) {
             outputVector[j][i] = inputVector[i][j];
@@ -369,6 +474,7 @@ void visualiseVec2D(vector<vector<int>>& vec) {
     cout << endl;
     return;
 }
+
 
 void visualiseVec3D(vector<vector<vector<int>>>& vec) {
     for (int i=0; i<vec.size(); i++) {
@@ -419,35 +525,86 @@ void writeOutfile(int inputMatrix[9][9]) {
 
 int main()
 {   
-    // ## setup
-    // while(int_count !=27) {
+                                // ## setup
+                                // while(int_count !=27) {
 
-    // }
-    //horSolve(frame, horFrame);
-    //transpose(hor_frame, verFrame);
-    //intSolveSetup(horFrame);
+                                // }
+                                //horSolve(frame, horFrame);
+                                //transpose(hor_frame, verFrame);
+                                //intSolveSetup(horFrame);
+                                // # vector
+                                // vecHorSolve(vecFrame, horVector);
+                                // transposeVector2D(horVector, verVector);
+                                // intSolveSetupVector(vecFrame);
+
+
+                                // ## initial frame:
+                                //visualise(horFrame);
+
+                                // # vector
+                                // visualiseVec2D(horVector);
+
+
+                                // ## solving + visualising
+                                //intSolve(horFrame);
+                                //visualiseVec(solveFrame);
+
+                                // # vector
+                                // vecHorSolve3D(solveFrame, solveFrame);
+                                // intSolveVector(horVector);
+
+                                // ## finial frame:
+                                //visualise(horFrame);
+                                //hor_solve(frame, horFrame);
+
+                                // # vector
+                                // visualiseVec2D(horVector);
+
+                                //writeOutfile(horFrame);
+
+                                // solving
+
+    // setup
+    visualiseVec2D(vecFrame);
+    cout << ' ' << endl;
 
     vecHorSolve(vecFrame, horVector);
-    transposeVector(horVector, verVector);
+    transposeVector2D(horVector, verVector);
+
+    // initialize solving system
+
+    intSolveSetupVector(vecFrame);
+    // internal solving
+    
+
+    while(intCount < 900) {
+        intSolveVector(vecFrame);
+
+        // horizontal solving
+
+        vecHorSolve3D(solveFrame, solveFrame);
+        intSolveVector(horVector);
+
+        // vertical solving
+
+        transposeVector3D(solveFrame, solveFrame);
+        intSolveVector(verVector);
+
+        // return to normal state
+
+        transposeVector3D(solveFrame, solveFrame);
+        vecHorSolve3D(solveFrame, solveFrame);
+
+        visualiseVec3D(solveFrame);
+    }
+
+    // visualise result
+
     intSolveSetupVector(vecFrame);
 
+    cout << ' ' << endl;
+    visualiseVec2D(vecFrame);
 
-    // ## initial frame:
-    //visualise(horFrame);
-    visualiseVec2D(horVector);
-
-
-    // ## solving + visualising
-    //intSolve(horFrame);
-    //visualiseVec(solveFrame);
-    intSolveVector(horVector);
-
-    // ## finial frame:
-    //visualise(horFrame);
-    //hor_solve(frame, horFrame);
-    visualiseVec2D(horVector);
-    
-    //writeOutfile(horFrame);
 
     return 0;
 }
