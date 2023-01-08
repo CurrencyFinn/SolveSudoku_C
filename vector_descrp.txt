@@ -1,0 +1,329 @@
+void visualiseVec2D(vector<vector<int>>& vec) {
+    for (int i=0; i<vec.size(); i++) {
+        for(int j=0; j != vec[i].size(); j++){
+            cout << vec[i][j];
+         }
+         cout << ' ';
+    }
+    cout << endl;
+    return;
+}
+
+void transposeVector2D(vector<vector<int>>& inputVector, vector<vector<int>>& outputVector) {
+     for (int i = 0; i < 9; i++) {
+        for (int j = 0; j < 9; j++) {
+            outputVector[j][i] = inputVector[i][j];
+      }
+    }
+}
+
+void transposeVector3D(vector<vector<vector<int>>>& inputVector, vector<vector<vector<int>>>& outputVector) {
+     for (int i = 0; i < 9; i++) {
+        for (int j = 0; j < 9; j++) {
+            outputVector[j][i] = inputVector[i][j];
+      }
+    }
+}
+
+void vecHorSolve(vector<vector<int>>& inputVector, vector<vector<int>>& outputVector)
+{
+    int acount = 0;
+    int bcount = 0;
+    int ccount = 0;
+    for(int i = 0; i<inputVector.size(); i++)
+    {
+        if(i < 3) // first row block
+        {
+            for(int b = 0; b != inputVector[i].size(); b++) {          
+                if(b <3) // first segment row
+                {
+                    if (acount >8) {
+                        acount = 0;
+                    }
+                    outputVector[0][acount] = inputVector[i][b];
+                    acount++;
+                }
+                else if (b>2 && b<6) // second segment row
+                {
+                    if (bcount >8) {
+                        bcount = 0;
+                    }
+                    outputVector[1][bcount] = inputVector[i][b];
+                    bcount++;
+                } 
+                else // third segment row
+                {
+                    if (ccount > 8) {
+                        ccount = 0;
+                    }
+                    outputVector[2][ccount] =  inputVector[i][b];
+                    ccount++;
+                }
+            }
+        }  
+        else if (i>2 && i<6) // second row block
+        {
+            for(int b = 0; b!= inputVector[i].size(); b++) {
+                if(b <3) // first segment row
+                {
+                    if (acount >8) {
+                        acount = 0;
+                    }
+                    outputVector[3][acount] = inputVector[i][b];
+                    acount++;
+                }
+                else if (b>2 && b<6) // second segment row
+                {
+                    if (bcount >8) {
+                        bcount = 0;
+                    }
+                    outputVector[4][bcount] = inputVector[i][b];
+                    bcount++;
+                } 
+                else // third segment row
+                {
+                    if (ccount > 8) {
+                        ccount = 0;
+                    }
+                    outputVector[5][ccount] = inputVector[i][b];
+                    ccount++;
+                }
+            }
+        } 
+        else // third row block
+        {
+            for(int b = 0; b!= inputVector[i].size(); b++) {
+                if(b <3) // first segment row
+                {
+                    if (acount >8) {
+                        acount = 0;
+                    }
+                    outputVector[6][acount] = inputVector[i][b];
+                    acount++;
+                }
+                else if (b>2 && b<6) // second segment row
+                {
+                    if (bcount >8) {
+                        bcount = 0;
+                    }
+                    outputVector[7][bcount] = inputVector[i][b];
+                    bcount++;
+                } 
+                else // third segment row
+                {
+                    if (ccount > 8) {
+                        ccount = 0;
+                    }
+                    outputVector[8][ccount] = inputVector[i][b];
+                    ccount++;
+                }
+            }
+        }
+    }
+    return;
+}
+
+void vecHorSolve3D(vector<vector<vector<int>>>& inputVector, vector<vector<vector<int>>>& outputVector)
+{
+    int acount = 0;
+    int bcount = 0;
+    int ccount = 0;
+    for(int i = 0; i<inputVector.size(); i++)
+    {
+        if(i < 3) // first row block
+        {
+            for(int b = 0; b != inputVector[i].size(); b++) {          
+                if(b <3) // first segment row
+                {
+                    if (acount >8) {
+                        acount = 0;
+                    }
+                    outputVector[0][acount] = inputVector[i][b];
+                    acount++;
+                }
+                else if (b>2 && b<6) // second segment row
+                {
+                    if (bcount >8) {
+                        bcount = 0;
+                    }
+                    outputVector[1][bcount] = inputVector[i][b];
+                    bcount++;
+                } 
+                else // third segment row
+                {
+                    if (ccount > 8) {
+                        ccount = 0;
+                    }
+                    outputVector[2][ccount] =  inputVector[i][b];
+                    ccount++;
+                }
+            }
+        }  
+        else if (i>2 && i<6) // second row block
+        {
+            for(int b = 0; b!= inputVector[i].size(); b++) {
+                if(b <3) // first segment row
+                {
+                    if (acount >8) {
+                        acount = 0;
+                    }
+                    outputVector[3][acount] = inputVector[i][b];
+                    acount++;
+                }
+                else if (b>2 && b<6) // second segment row
+                {
+                    if (bcount >8) {
+                        bcount = 0;
+                    }
+                    outputVector[4][bcount] = inputVector[i][b];
+                    bcount++;
+                } 
+                else // third segment row
+                {
+                    if (ccount > 8) {
+                        ccount = 0;
+                    }
+                    outputVector[5][ccount] = inputVector[i][b];
+                    ccount++;
+                }
+            }
+        } 
+        else // third row block
+        {
+            for(int b = 0; b!= inputVector[i].size(); b++) {
+                if(b <3) // first segment row
+                {
+                    if (acount >8) {
+                        acount = 0;
+                    }
+                    outputVector[6][acount] = inputVector[i][b];
+                    acount++;
+                }
+                else if (b>2 && b<6) // second segment row
+                {
+                    if (bcount >8) {
+                        bcount = 0;
+                    }
+                    outputVector[7][bcount] = inputVector[i][b];
+                    bcount++;
+                } 
+                else // third segment row
+                {
+                    if (ccount > 8) {
+                        ccount = 0;
+                    }
+                    outputVector[8][ccount] = inputVector[i][b];
+                    ccount++;
+                }
+            }
+        }
+    }
+    return;
+}
+
+void intSolveVector(vector<vector<int>>& inputVector)
+{
+    for (int i =0; i<9; i++)
+    {
+        vector<int> tempVec;
+        for (int j=0; j<9; j++) {
+            tempVec.push_back(inputVector[i][j]);
+        }
+        for (int k=0; k<9; k++)
+        if (solveFrame[i][k][0] != 0) {
+            for (int l=0; l<9; l++) {
+                vector<int>::iterator it = find(solveFrame[i][k].begin(), solveFrame[i][k].end(), tempVec[l]); 
+                if (it != solveFrame[i][k].end()) {
+                    solveFrame[i][k].erase(it);
+                }
+                else {
+                    intCount++;
+                }
+                if (solveFrame[i][k].size() == 1) {
+                    inputVector[i][k] = solveFrame[i][k][0];
+                    solveFrame[i][k][0] = 0;
+                }
+            }
+        }
+    }
+    return;
+}
+
+void intSolveSetupVector(vector<vector<int>>& inputVector)
+{
+    for (int i=0; i<solveFrame.size(); i++) {
+        for(int j = 0; j != solveFrame[i].size(); j++)
+        {   
+            if (inputVector[i][j] != 0) {
+                solveFrame[i][j].resize(1);
+                solveFrame[i][j][0] = 0;
+            }
+            else {
+
+                    for (int k = 0; k != solveFrame[i][j].size(); k++)
+                    {   
+                        solveFrame[i][j][k] = checkArray[k];
+                    }
+                
+            }
+         }
+    }
+    return;
+}
+
+void arraySolve(int inputMatrix[9][9]) {
+    for (int i=0; i<9; i++) {
+        for(int j = 0; j<9; j++)
+        {   
+            int jcount =0;
+            vector<int> tempVector;
+            vector<int> unsolvedVectorPosition;
+            for(int k=0; k<9;k++){
+                if (newFrame[i][j][k] == 0) {
+                    jcount++;
+                } 
+            }
+            if (jcount == 9) {
+                tempVector.push_back(inputMatrix[i][j]);
+            } else {
+                unsolvedVectorPosition.push_back(j);
+            }
+            for (int l=0; l<unsolvedVectorPosition.size();l++) {
+                inputMatrix[i][k]
+            }
+        }
+    }
+    return;
+}
+
+void arraySetup(int inputMatrix[9][9]) {
+    for (int i=0; i<9; i++) {
+        for(int j = 0; j<9; j++)
+        {   
+            if(inputMatrix[i][j] == 0) {
+                for(int k=0; k<9;k++){
+                    newFrame[i][j][k] = k+1;
+                }
+            }
+         }
+    }
+    return;
+}
+
+void visualise3D(int matrix[9][9][9]) {
+    for (int i=0; i<9; i++) {
+        for(int j=0; j<9; j++){
+            for(int k=0;k<9;k++) {
+                cout << matrix[i][j][k] << ' '; 
+            }
+            cout << endl;
+        }
+        cout << endl;
+    }
+    cout << endl;
+    return;
+}
+
+vector<vector<int>> verVector (9, vector<int>(9));
+vector<vector<int>> horVector (9, vector<int>(9));
+vector<vector<int>> vecFrame = { {4,8,1,7,6,9,3,5,0}, {5,6,0,3,2,4,0,7,0}, {3,0,0,0,5,0,6,0,0}, {0,9,7,1,0,0,5,4,0}, {0,8,5,0,0,6,1,0,0}, {2,1,0,5,4,0,0,8,6}, {0,7,6,2,0,5,9,3,4}, {9,5,3,0,4,0,0,0,0}, {0,2,0,0,3,0,0,6,5} };
