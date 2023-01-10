@@ -30,6 +30,7 @@ void intSolveSetup(int inputMatrix[9][9])
         for(int j = 0; j != solveFrame[i].size(); j++)
         {   
             if (inputMatrix[i][j] != 0) {
+                outputFrame[i][j] = inputMatrix[i][j];
                 solveFrame[i][j].resize(1);
                 solveFrame[i][j][0] = 0;
             }
@@ -59,18 +60,15 @@ void intSolve(int inputMatrix[9][9])
             for (int l=0; l<9; l++) {
                 vector<int>::iterator it = find(solveFrame[i][k].begin(), solveFrame[i][k].end(), tempVec[l]); 
                 if (it != solveFrame[i][k].end()) {
-                    //if (solveFrame[i][k].size() != 1) {
-                        solveFrame[i][k].erase(it);
-                    //}
+                    solveFrame[i][k].erase(it);
                 }
                 else {
-                    intCount++;
+                    intCount++; // not sure if position is right
                 }
-                if (solveFrame[i][k].size() == 1) {
-                    outputFrame[i][k] = solveFrame[i][k][0]; // perhaps change frame here to like an output frame that is usually blank
-                    //solveFrame[i][k].push_back(0);
-                    solveFrame[i][k][0] = 0;
-                }
+            }
+            if (solveFrame[i][k].size() == 1) {
+                outputFrame[i][k] = solveFrame[i][k][0];
+                solveFrame[i][k][0] = 0;
             }
         }
     }
@@ -260,9 +258,6 @@ int main()
     
     intSolve(frame);
     visualiseVec3D(solveFrame);
-    intSolve(horFrame);
-    visualiseVec3D(solveFrame);
-
 
     // // while(intCount < 900) {
     // //     intSolve(frame);
