@@ -18,6 +18,7 @@ int verFrame[9][9];
 int outputFrame[9][9];
 int checkArray[9] = {1,2,3,4,5,6,7,8,9};
 vector<vector<vector<int>>> solveFrame(9, vector<vector<int> > (9, vector<int>(9)));
+vector<vector<vector<int>>> tempFrame(9, vector<vector<int> > (9, vector<int>(9)));
 int intCount =0;
 
 int newFrame[9][9][9]; 
@@ -62,14 +63,13 @@ void intSolve(int inputMatrix[9][9])
                 if (it != solveFrame[i][k].end()) {
                     solveFrame[i][k].erase(it);
                 }
-                else {
-                    intCount++; // not sure if position is right
-                }
             }
             if (solveFrame[i][k].size() == 1) {
                 outputFrame[i][k] = solveFrame[i][k][0];
                 solveFrame[i][k][0] = 0;
             }
+        } else {
+            intCount++; // not sure if position is right
         }
     }
     return;
@@ -284,6 +284,7 @@ int main()
 
     // cout << ' ' << endl;
     // visualise(frame);
+    cout<< intCount << endl;
     visualise(outputFrame);
 
     return 0;
