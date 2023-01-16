@@ -17,8 +17,8 @@ int horFrame[9][9];
 int verFrame[9][9];
 int outputFrame[9][9];
 int checkArray[9] = {1,2,3,4,5,6,7,8,9};
-vector<vector<vector<int>>> solveFrame(9, vector<vector<int> > (9, vector<int>(9)));
 vector<vector<vector<int>>> tempFrame(9, vector<vector<int> > (9, vector<int>(9)));
+vector<vector<vector<int>>> solveFrame(9, vector<vector<int> > (9, vector<int>(9)));
 int intCount =0;
 
 int newFrame[9][9][9]; 
@@ -41,7 +41,6 @@ void intSolveSetup(int inputMatrix[9][9])
                     {   
                         solveFrame[i][j][k] = checkArray[k];
                     }
-                
             }
          }
     }
@@ -54,22 +53,46 @@ void intSolve(int inputMatrix[9][9])
     {
         vector<int> tempVec;
         for (int j=0; j<9; j++) {
-            tempVec.push_back(inputMatrix[i][j]);
+            if (inputMatrix[i][j] != 0) {
+                tempVec.push_back(inputMatrix[i][j]);
+            }
+            // temp vec should also include the numbers for the vertical and horizontal and delete multiplicty
         }
-        for (int k=0; k<9; k++)
-        if (solveFrame[i][k][0] != 0) {
-            for (int l=0; l<9; l++) {
-                vector<int>::iterator it = find(solveFrame[i][k].begin(), solveFrame[i][k].end(), tempVec[l]); 
-                if (it != solveFrame[i][k].end()) {
-                    solveFrame[i][k].erase(it);
+        int anotherCounter =0;
+        for (int k=0; k<9; k++) 
+        {
+            //every single position on the frame // tempVec !=8 so it doesnt have to solve horizontal and vertical because its already has the solution by internal solving
+            if (tempVec.size() != 8) {
+                vector<int> PositionVec;
+                if (anotherCounter ==3) {
+                    anotherCounter=0;
                 }
+                if(k<3) {
+                    // horizontal =0
+                    //vertical =anotherCounter
+                } else if (k<6) {
+                    //horizontal =1
+                } else {
+                    // horizontal =2
+                }
+                // add positional values for row and column values as input i and k! where i is outside array and k is inside array.
+                // For 3 every steps, horizontal increases by 1, while inside these 3 steps vertical increases 1 step
             }
-            if (solveFrame[i][k].size() == 1) {
-                outputFrame[i][k] = solveFrame[i][k][0];
-                solveFrame[i][k][0] = 0;
+            anotherCounter++;
+            if (solveFrame[i][k][0] != 0) {
+                for (int l=0; l<9; l++) {
+                    vector<int>::iterator it = find(solveFrame[i][k].begin(), solveFrame[i][k].end(), tempVec[l]); 
+                    if (it != solveFrame[i][k].end()) {
+                        solveFrame[i][k].erase(it);
+                    }
+                }
+                if (solveFrame[i][k].size() == 1) {
+                    outputFrame[i][k] = solveFrame[i][k][0];
+                    solveFrame[i][k][0] = 0;
+                }
+            } else {
+                intCount++; // not sure if position is right
             }
-        } else {
-            intCount++; // not sure if position is right
         }
     }
     return;
@@ -245,8 +268,8 @@ int main()
 {   
 
     // setup
-    visualise(frame);
-    cout << ' ' << endl;
+    // visualise(frame);
+    // cout << ' ' << endl;
 
     horSolve(frame, horFrame);
     transpose(horFrame, verFrame);
@@ -257,35 +280,12 @@ int main()
     // internal solving
     
     intSolve(frame);
+
     visualiseVec3D(solveFrame);
 
-    // // while(intCount < 900) {
-    // //     intSolve(frame);
 
-    // //     // horizontal solving
-
-    // //     vecHorSolve3D(solveFrame, solveFrame);
-    // //     intSolveVector(horVector);
-
-    // //     // vertical solving
-
-    // //     transposeVector3D(solveFrame, solveFrame);
-    // //     intSolveVector(verVector);
-
-    // //     // return to normal state
-
-    // //     transposeVector3D(solveFrame, solveFrame);
-    // //     vecHorSolve3D(solveFrame, solveFrame);
-
-    // //     visualiseVec3D(solveFrame);
-    // // }
-
-    // // visualise result
-
-    // cout << ' ' << endl;
-    // visualise(frame);
-    cout<< intCount << endl;
-    visualise(outputFrame);
+    // cout<< intCount << endl;
+    // visualise(outputFrame);
 
     return 0;
 }
