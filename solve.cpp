@@ -20,7 +20,7 @@ int checkArray[9] = {1,2,3,4,5,6,7,8,9};
 vector<vector<vector<int>>> tempFrame(9, vector<vector<int> > (9, vector<int>(9)));
 vector<vector<vector<int>>> solveFrame(9, vector<vector<int> > (9, vector<int>(9)));
 int intCount =0;
-
+int quitLoop =0;
 // internal block 
 
 void intSolveSetup(int inputMatrix[9][9])
@@ -143,13 +143,30 @@ void intSolve(int inputMatrix[9][9])
                         vector<int>::iterator it = find(solveFrame[i][k].begin(), solveFrame[i][k].end(), tempVec[l]); 
                         if (it != solveFrame[i][k].end()) {
                             solveFrame[i][k].erase(it);
-                        }
+                        } 
                     }
                     if (solveFrame[i][k].size() == 1) {
                         frame[i][k] = solveFrame[i][k][0];
                         solveFrame[i][k][0] = 0;
                     }
-
+                    if(quitLoop ==3) { // remove this later now for testing
+                            vector<int> uniqueTempVec;
+                            // for_each(solveFrame[i][k].begin(), solveFrame[i][k].end(), [&] (int n) {
+                            //     uniqueTempVec.push_back(n);
+                            // });
+                            //cout<<solveFrame[i][k].size();
+                            //for(int l=0;l<solveFrame[i][k].size();l++) {
+                            //uniqueTempVec.insert(solveFrame[i][k].begin(), solveFrame[i][k].end(), solveFrame[i][k][l]);
+                            uniqueTempVec.insert(uniqueTempVec.end(), solveFrame[i][k].begin(), solveFrame[i][k].end());
+                            //}
+                            // vector<int>::iterator it;
+                            // it = unique(uniqueTempVec.begin(), uniqueTempVec.end());  
+                            // cout <<  "\t" << *it;
+                            for(int z=0;z<uniqueTempVec.size();z++) {
+                                cout<<uniqueTempVec[z]<< ' ';
+                            }
+                            cout<<endl;
+                    }
                 } 
             }
             else {
@@ -335,18 +352,20 @@ int main()
     intSolveSetup(frame);
 
     // internal solving
-    int quitLoop =0;
+    
     while(intCount<81) {
         intCount=0;
         intSolve(frame);
         quitLoop++;
-        if(quitLoop ==5) {
+        if(quitLoop ==4) {
             intCount=81;
             cout<<"quit loop with max loops"<<endl;
             cout<<endl;
         }
     }
-    //visualiseVec3D(solveFrame);
+
+    
+    visualiseVec3D(solveFrame);
     visualise(frame);
 
     return 0;
