@@ -12,16 +12,14 @@ using namespace std;
 
 
 //int checkArray[9] = {1,2,3,4,5,6,7,8,9};
-int frame[9][9] = { {4,8,1,7,6,9,3,5,0}, {5,6,0,3,2,4,0,7,0}, {3,0,0,1,5,0,6,0,0}, {0,9,7,1,0,0,5,4,0}, {0,8,5,0,0,6,1,0,0}, {2,1,0,5,4,0,0,8,6}, {0,7,6,2,0,5,9,3,4}, {9,5,3,0,4,0,0,0,0}, {0,2,0,0,3,0,0,6,5} };
+int frame[9][9] = { {4,8,1,7,6,9,3,5,0}, {5,6,0,3,2,4,0,7,0}, {3,0,0,0,5,0,6,0,0}, {0,9,7,1,0,0,5,4,0}, {0,8,5,0,0,6,1,0,0}, {2,1,0,5,4,0,0,8,6}, {0,7,6,2,0,5,9,3,4}, {9,5,3,0,4,0,0,0,0}, {0,2,0,0,3,0,0,6,5} };
 int horFrame[9][9];
 int verFrame[9][9];
-int outputFrame[9][9];
+//int outputFrame[9][9];
 int checkArray[9] = {1,2,3,4,5,6,7,8,9};
 vector<vector<vector<int>>> tempFrame(9, vector<vector<int> > (9, vector<int>(9)));
 vector<vector<vector<int>>> solveFrame(9, vector<vector<int> > (9, vector<int>(9)));
 int intCount =0;
-
-int newFrame[9][9][9]; 
 
 // internal block 
 
@@ -31,7 +29,7 @@ void intSolveSetup(int inputMatrix[9][9])
         for(int j = 0; j != solveFrame[i].size(); j++)
         {   
             if (inputMatrix[i][j] != 0) {
-                outputFrame[i][j] = inputMatrix[i][j];
+                //outputFrame[i][j] = inputMatrix[i][j]; // only shows filled in entries
                 solveFrame[i][j].resize(1);
                 solveFrame[i][j][0] = 0;
             }
@@ -52,48 +50,113 @@ void intSolve(int inputMatrix[9][9])
     for (int i =0; i<9; i++)
     {
         vector<int> tempVec;
-        for (int j=0; j<9; j++) {
-            if (inputMatrix[i][j] != 0) {
-                tempVec.push_back(inputMatrix[i][j]);
-            }
-            // temp vec should also include the numbers for the vertical and horizontal and delete multiplicty
-        }
-        int anotherCounter =0;
         for (int k=0; k<9; k++) 
         {
-            //every single position on the frame // tempVec !=8 so it doesnt have to solve horizontal and vertical because its already has the solution by internal solving
-            if (tempVec.size() != 8) {
-                vector<int> PositionVec;
-                if (anotherCounter ==3) {
-                    anotherCounter=0;
+            if(frame[i][k] ==0) {
+                tempVec.clear();
+                for (int j=0; j<9; j++) {
+                    if (inputMatrix[i][j] != 0) {
+                        tempVec.push_back(inputMatrix[i][j]);
+                    }
+                    // this function could perhaps be moved outside the k function
                 }
-                if(k<3) {
-                    // horizontal =0
-                    //vertical =anotherCounter
-                } else if (k<6) {
-                    //horizontal =1
-                } else {
-                    // horizontal =2
-                }
-                // add positional values for row and column values as input i and k! where i is outside array and k is inside array.
-                // For 3 every steps, horizontal increases by 1, while inside these 3 steps vertical increases 1 step
-            }
-            anotherCounter++;
-            if (solveFrame[i][k][0] != 0) {
-                for (int l=0; l<9; l++) {
-                    vector<int>::iterator it = find(solveFrame[i][k].begin(), solveFrame[i][k].end(), tempVec[l]); 
-                    if (it != solveFrame[i][k].end()) {
-                        solveFrame[i][k].erase(it);
+                //every single position on the frame // tempVec !=8 so it doesnt have to solve horizontal and vertical because its already has the solution by internal solving
+                if (tempVec.size() != 8) {
+                    vector<int> PositionVec;
+                    if(i<3) { // change later to < 3
+                        if(k<3) {
+                            for(int p=0;p<9;p++) {
+                                tempVec.push_back(horFrame[0][p]);
+                                tempVec.push_back(verFrame[k+3*i][p]);
+                            }
+                        }
+                        if(k>2 && k<6) {
+                            for(int p=0;p<9;p++) {
+                                tempVec.push_back(horFrame[1][p]);
+                                tempVec.push_back(verFrame[(k-3)+3*i][p]);
+                            }
+                        }
+                        if (k>5) {
+                            for(int p=0;p<9;p++) {
+                                tempVec.push_back(horFrame[2][p]);
+                                tempVec.push_back(verFrame[(k-6)+3*i][p]);
+                            }
+                        }
+                    }
+                    if(i>2 && i<6) {
+                        if(k<3) {
+                            for(int p=0;p<9;p++) {
+                                tempVec.push_back(horFrame[3][p]);
+                                tempVec.push_back(verFrame[k+3*(i-3)][p]);
+                            }
+                        }
+                        if(k>2 && k<6) {
+                            for(int p=0;p<9;p++) {
+                                tempVec.push_back(horFrame[4][p]);
+                                tempVec.push_back(verFrame[(k-3)+3*(i-3)][p]);
+                            }
+                        }
+                        if (k>5) {
+                            for(int p=0;p<9;p++) {
+                                tempVec.push_back(horFrame[5][p]);
+                                tempVec.push_back(verFrame[(k-6)+3*(i-3)][p]);
+                            }
+                        }
+                    }
+                    if(i>5) {
+                        if(k<3) {
+                            for(int p=0;p<9;p++) {
+                                tempVec.push_back(horFrame[6][p]);
+                                tempVec.push_back(verFrame[k+3*(i-6)][p]);
+                            }
+                        }
+                        if(k>2 && k<6) {
+                            for(int p=0;p<9;p++) {
+                                tempVec.push_back(horFrame[7][p]);
+                                tempVec.push_back(verFrame[(k-3)+3*(i-6)][p]);
+                            }
+                        }
+                        if (k>5) {
+                            for(int p=0;p<9;p++) {
+                                tempVec.push_back(horFrame[8][p]);
+                                tempVec.push_back(verFrame[(k-6)+3*(i-6)][p]);
+                            }
+                        }
+
+                        // add positional values for row and column values as input i and k! where i is outside array and k is inside array.
+                        // For 3 every steps, horizontal increases by 1, while inside these 3 steps vertical increases 1 step
                     }
                 }
-                if (solveFrame[i][k].size() == 1) {
-                    outputFrame[i][k] = solveFrame[i][k][0];
-                    solveFrame[i][k][0] = 0;
+                sort(tempVec.begin(), tempVec.end()); // v 
+                tempVec.erase(unique(tempVec.begin(),tempVec.end()), tempVec.end()); // have to test if this speeds up the n^2 loop size 
+                if (tempVec[0] == 0) {
+                    tempVec.erase(tempVec.begin());
                 }
-            } else {
-                intCount++; // not sure if position is right
+
+                // for(int i=0;i<tempVec.size();i++) {
+                //     cout<<tempVec[i]<<' ';
+                // }
+                // cout<<endl; // visualize 
+
+                if (solveFrame[i][k][0] != 0) {
+                    for (int l=0; l<tempVec.size(); l++) {
+                        vector<int>::iterator it = find(solveFrame[i][k].begin(), solveFrame[i][k].end(), tempVec[l]); 
+                        if (it != solveFrame[i][k].end()) {
+                            solveFrame[i][k].erase(it);
+                        }
+                    }
+                    if (solveFrame[i][k].size() == 1) {
+                        frame[i][k] = solveFrame[i][k][0];
+                        solveFrame[i][k][0] = 0;
+                    }
+
+                } 
+            }
+            else {
+                intCount++; // the amount of open spots to be solved in THE PREVIOUS FRAME
             }
         }
+        tempVec.clear();
     }
     return;
 }
@@ -266,26 +329,25 @@ void writeOutfile(int inputMatrix[9][9]) {
 
 int main()
 {   
-
-    // setup
-    // visualise(frame);
-    // cout << ' ' << endl;
-
     horSolve(frame, horFrame);
     transpose(horFrame, verFrame);
-
     // initialize solving system
-
     intSolveSetup(frame);
+
     // internal solving
-    
-    intSolve(frame);
-
-    visualiseVec3D(solveFrame);
-
-
-    // cout<< intCount << endl;
-    // visualise(outputFrame);
+    int quitLoop =0;
+    while(intCount<81) {
+        intCount=0;
+        intSolve(frame);
+        quitLoop++;
+        if(quitLoop ==5) {
+            intCount=81;
+            cout<<"quit loop with max loops"<<endl;
+            cout<<endl;
+        }
+    }
+    //visualiseVec3D(solveFrame);
+    visualise(frame);
 
     return 0;
 }
