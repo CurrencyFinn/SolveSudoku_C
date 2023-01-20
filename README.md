@@ -35,7 +35,7 @@ https://en.wikipedia.org/wiki/Sudoku
 
 output:
 
-5 3 4 &nbsp; &nbsp;6 7 2&nbsp; &nbsp;1 9 8   
+5 3 4 &nbsp; &nbsp;6 7 2 &nbsp; &nbsp;1 9 8   
 6 7 8 &nbsp; &nbsp;1 9 5 &nbsp; &nbsp;3 4 2   
 9 1 2 &nbsp; &nbsp;3 4 8 &nbsp; &nbsp;5 6 7   
 
