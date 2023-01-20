@@ -2,26 +2,20 @@
 #include <algorithm>
 #include <vector>
 #include <fstream>
+#include <chrono>
 using namespace std;
+using namespace std::chrono;
 
 // 0 => no entry
 
-// TAKS combination with horizontal solving vector towards the frame aka doing a hor_solve for solving vector and transposition for the vertical solving vector then making that function a class with solving, tranposing, transforming
-// !!!universal solving frame!!!
-// new way of solving instead of a vector that decreases in size an array with size 9 that has values in it, deleting value if the zero amount is not equal to 8, problem now is that the vector size changes and therefore some weird changes occur. Maybe later on move back to vectors.
-
-
-//int checkArray[9] = {1,2,3,4,5,6,7,8,9};
 int frame[9][9] = { {4,8,1,7,6,9,3,5,0}, {5,6,0,3,2,4,0,7,0}, {3,0,0,0,5,0,6,0,0}, {0,9,7,1,0,0,5,4,0}, {0,8,5,0,0,6,1,0,0}, {2,1,0,5,4,0,0,8,6}, {0,7,6,2,0,5,9,3,4}, {9,5,3,0,4,0,0,0,0}, {0,2,0,0,3,0,0,6,5} };
 int horFrame[9][9];
 int verFrame[9][9];
 //int outputFrame[9][9];
 int checkArray[9] = {1,2,3,4,5,6,7,8,9};
-vector<vector<vector<int>>> tempFrame(9, vector<vector<int> > (9, vector<int>(9)));
 vector<vector<vector<int>>> solveFrame(9, vector<vector<int> > (9, vector<int>(9)));
 int intCount =0;
 int quitLoop =0;
-// internal block 
 
 void intSolveSetup(int inputMatrix[9][9])
 {
@@ -58,12 +52,11 @@ void intSolve(int inputMatrix[9][9])
                     if (inputMatrix[i][j] != 0) {
                         tempVec.push_back(inputMatrix[i][j]);
                     }
-                    // this function could perhaps be moved outside the k function
                 }
                 //every single position on the frame // tempVec !=8 so it doesnt have to solve horizontal and vertical because its already has the solution by internal solving
                 if (tempVec.size() != 8) {
                     vector<int> PositionVec;
-                    if(i<3) { // change later to < 3
+                    if(i<3) {
                         if(k<3) {
                             for(int p=0;p<9;p++) {
                                 tempVec.push_back(horFrame[0][p]);
@@ -124,10 +117,10 @@ void intSolve(int inputMatrix[9][9])
                         }
 
                         // add positional values for row and column values as input i and k! where i is outside array and k is inside array.
-                        // For 3 every steps, horizontal increases by 1, while inside these 3 steps vertical increases 1 step
+                        // For 3 every steps, horizontal increases by 1, while inside these 3 steps vertical increases 1 step, could be aloged to improve clarity and compact the code
                     }
                 }
-                sort(tempVec.begin(), tempVec.end()); // v 
+                sort(tempVec.begin(), tempVec.end()); // below
                 tempVec.erase(unique(tempVec.begin(),tempVec.end()), tempVec.end()); // have to test if this speeds up the n^2 loop size 
                 if (tempVec[0] == 0) {
                     tempVec.erase(tempVec.begin());
@@ -136,7 +129,7 @@ void intSolve(int inputMatrix[9][9])
                 // for(int i=0;i<tempVec.size();i++) {
                 //     cout<<tempVec[i]<<' ';
                 // }
-                // cout<<endl; // visualize 
+                // cout<<endl; // visualize solving
 
                 if (solveFrame[i][k][0] != 0) {
                     for (int l=0; l<tempVec.size(); l++) {
@@ -152,10 +145,11 @@ void intSolve(int inputMatrix[9][9])
                 } 
             }
             else {
-                intCount++; // the amount of open spots to be solved in THE PREVIOUS FRAME
+                intCount++; // the amount of open spots to be solved in THE PREVIOUS FRAME can be improved to be moved somewhere else
             }
         }
         tempVec.clear();
+        // insert way of finding unique values among the initial the rows could introduce last solving step or introduce efficiency
         // if(quitLoop ==3) { // remove this later now for testing
         //     vector<int> uniqueTempVec;
             
@@ -196,9 +190,7 @@ void intSolve(int inputMatrix[9][9])
     }
     return;
 }
-
 // horizonatal rows
-
 void horSolve(int inputMatrix[9][9], int outputMatrix[9][9])
 {
     int acount = 0;
@@ -365,29 +357,33 @@ void writeOutfile(int inputMatrix[9][9]) {
 
 int main()
 {   
+    auto start = high_resolution_clock::now();
     horSolve(frame, horFrame);
     transpose(horFrame, verFrame);
+    
     // initialize solving system
     intSolveSetup(frame);
-
-    // internal solving
     
+    // internal solving
     while(intCount<81) {
         intCount=0;
         intSolve(frame);
         horSolve(frame, horFrame);
         transpose(horFrame, verFrame);
         quitLoop++;
-        if(quitLoop ==4) {
+        if(quitLoop ==50) {
             intCount=81;
             cout<<"quit loop with max loops"<<endl;
             cout<<endl;
         }
     }
-
     
-    visualiseVec3D(solveFrame);
-    visualise(frame);
+    auto stop = high_resolution_clock::now();
+    auto duration = duration_cast<microseconds>(stop - start);
+    cout<<"After " << quitLoop<< " procedures sudoku was solved in: "<<duration.count()<<endl;
 
+    //visualiseVec3D(solveFrame);
+    visualise(frame);
+    writeOutfile(frame);
     return 0;
 }
