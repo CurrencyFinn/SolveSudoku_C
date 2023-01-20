@@ -30,6 +30,9 @@ This can then finally be looped over with a "while True" loop that stops (False)
 
 https://en.wikipedia.org/wiki/Sudoku 
 
+![alt text](https://github.com/CurrencyFinn/SolveSudoku_C/blob/master/info/Sudoku_Puzzle_by_L2G-20050714_standardized_layout.svg.png?raw=true)
+![alt text](https://github.com/CurrencyFinn/SolveSudoku_C/blob/master/info/250px-Sudoku_Puzzle_by_L2G-20050714_solution_standardized_layout.svg.png?raw=true)
+
 output:
 
 5 3 4   6 7 2   1 9 8   
