@@ -1,5 +1,6 @@
 # SolveSudoku_C
 defeating grannies in no time
+average solving time of 525ms
 
 
 ## hor_solve():
