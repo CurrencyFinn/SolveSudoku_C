@@ -35,16 +35,16 @@ https://en.wikipedia.org/wiki/Sudoku
 
 output:
 
-5 3 4   6 7 2   1 9 8   
-6 7 8   1 9 5   3 4 2   
-9 1 2   3 4 8   5 6 7   
+5 3 4 &nbsp; &nbsp;6 7 2&nbsp; &nbsp;1 9 8   
+6 7 8 &nbsp; &nbsp;1 9 5 &nbsp; &nbsp;3 4 2   
+9 1 2 &nbsp; &nbsp;3 4 8 &nbsp; &nbsp;5 6 7   
 
-8 5 9   4 2 6   7 1 3   
-7 6 1   8 5 3   9 2 4   
-4 2 3   7 9 1   8 5 6   
+8 5 9 &nbsp; &nbsp;4 2 6 &nbsp; &nbsp;7 1 3   
+7 6 1 &nbsp; &nbsp;8 5 3 &nbsp; &nbsp;9 2 4   
+4 2 3 &nbsp; &nbsp;7 9 1 &nbsp; &nbsp;8 5 6   
 
-9 6 1   2 8 7   3 4 5   
-5 3 7   4 1 9   2 8 6   
-2 8 4   6 3 5   1 7 9   
+9 6 1 &nbsp; &nbsp;2 8 7 &nbsp; &nbsp;3 4 5   
+5 3 7 &nbsp; &nbsp;4 1 9 &nbsp; &nbsp;2 8 6   
+2 8 4 &nbsp; &nbsp;6 3 5 &nbsp; &nbsp;1 7 9   
 
 solved in 1079ms.
