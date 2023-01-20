@@ -149,24 +149,6 @@ void intSolve(int inputMatrix[9][9])
                         frame[i][k] = solveFrame[i][k][0];
                         solveFrame[i][k][0] = 0;
                     }
-                    if(quitLoop ==3) { // remove this later now for testing
-                            vector<int> uniqueTempVec;
-                            // for_each(solveFrame[i][k].begin(), solveFrame[i][k].end(), [&] (int n) {
-                            //     uniqueTempVec.push_back(n);
-                            // });
-                            //cout<<solveFrame[i][k].size();
-                            //for(int l=0;l<solveFrame[i][k].size();l++) {
-                            //uniqueTempVec.insert(solveFrame[i][k].begin(), solveFrame[i][k].end(), solveFrame[i][k][l]);
-                            uniqueTempVec.insert(uniqueTempVec.end(), solveFrame[i][k].begin(), solveFrame[i][k].end());
-                            //}
-                            // vector<int>::iterator it;
-                            // it = unique(uniqueTempVec.begin(), uniqueTempVec.end());  
-                            // cout <<  "\t" << *it;
-                            for(int z=0;z<uniqueTempVec.size();z++) {
-                                cout<<uniqueTempVec[z]<< ' ';
-                            }
-                            cout<<endl;
-                    }
                 } 
             }
             else {
@@ -174,6 +156,43 @@ void intSolve(int inputMatrix[9][9])
             }
         }
         tempVec.clear();
+        // if(quitLoop ==3) { // remove this later now for testing
+        //     vector<int> uniqueTempVec;
+            
+        //     for (int k=0; k<solveFrame[i].size();k++) 
+        //     {
+        //         uniqueTempVec.insert(uniqueTempVec.end(), solveFrame[i][k].begin(), solveFrame[i][k].end());
+        //     }
+        //     // for (int k=0; k<solveFrame[i].size();k++) 
+        //     // {
+        //     //     for(int p=0; p<solveFrame[i][k].size();p++) {
+        //     //         cout<<solveFrame[i][k][p]<<endl;
+        //     //         uniqueTempVec.push_back(solveFrame[i][k][p]);
+        //     //     }
+        //     // }
+        //     for(int z=0;z<uniqueTempVec.size();z++) {
+        //         cout<<uniqueTempVec[z]<< ' ';
+        //     }
+        //     cout<<endl;
+
+        //     vector<int>::iterator itUnique;
+        //     itUnique = unique(uniqueTempVec.begin(), uniqueTempVec.end());  
+            
+        //     //cout<< itUnique[*itUnique]<<endl;
+        //     for (int k=0; k<9;k++) 
+        //     {
+        //         if(*itUnique>0) {
+        //             vector<int>::iterator it = find(solveFrame[i][k].begin(), solveFrame[i][k].end(), itUnique[*itUnique]); 
+        //             if (it != solveFrame[i][k].end()) {
+        //                 // solveFrame[i][k].resize(1);
+        //                 // solveFrame[i][k][0] = 0;
+        //                 // frame[i][k]=itUnique[*itUnique];
+        //             } 
+        //         }
+        //     }
+            
+            
+        // }
     }
     return;
 }
@@ -356,6 +375,8 @@ int main()
     while(intCount<81) {
         intCount=0;
         intSolve(frame);
+        horSolve(frame, horFrame);
+        transpose(horFrame, verFrame);
         quitLoop++;
         if(quitLoop ==4) {
             intCount=81;
