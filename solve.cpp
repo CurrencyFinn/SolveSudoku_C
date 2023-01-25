@@ -3,6 +3,7 @@
 #include <vector>
 #include <fstream>
 #include <chrono>
+#include <bits/stdc++.h>
 using namespace std;
 using namespace std::chrono;
 
@@ -16,6 +17,7 @@ int verFrame[9][9];
 int checkArray[9] = {1,2,3,4,5,6,7,8,9};
 vector<vector<vector<int>>> solveFrame(9, vector<vector<int> > (9, vector<int>(9)));
 int intCount =0;
+int previousIntCount=0;
 int quitLoop =0;
 
 void intSolveSetup(int inputMatrix[9][9])
@@ -151,43 +153,65 @@ void intSolve(int inputMatrix[9][9])
         }
         tempVec.clear();
         // insert way of finding unique values among the initial the rows could introduce last solving step or introduce efficiency
-        // if(quitLoop ==3) { // remove this later now for testing
-        //     vector<int> uniqueTempVec;
-            
-        //     for (int k=0; k<solveFrame[i].size();k++) 
-        //     {
-        //         uniqueTempVec.insert(uniqueTempVec.end(), solveFrame[i][k].begin(), solveFrame[i][k].end());
-        //     }
-        //     // for (int k=0; k<solveFrame[i].size();k++) 
-        //     // {
-        //     //     for(int p=0; p<solveFrame[i][k].size();p++) {
-        //     //         cout<<solveFrame[i][k][p]<<endl;
-        //     //         uniqueTempVec.push_back(solveFrame[i][k][p]);
-        //     //     }
-        //     // }
-        //     for(int z=0;z<uniqueTempVec.size();z++) {
-        //         cout<<uniqueTempVec[z]<< ' ';
-        //     }
-        //     cout<<endl;
+        if(quitLoop==20) { // remove this later now for testing
 
-        //     vector<int>::iterator itUnique;
-        //     itUnique = unique(uniqueTempVec.begin(), uniqueTempVec.end());  
+            // do I wanna keep it in the same i loop or make independent loops.
+
+            vector<int> uniqueTempVec;
+            // create all possible values in an vector 
+            for (int k=0; k<solveFrame[i].size();k++) 
+            {
+                for(int z=0; z<solveFrame[i][k].size();z++) {
+                    if(solveFrame[i][k].size()!=1){
+                        uniqueTempVec.push_back(solveFrame[i][k][z]);
+                    }
+                }
+            }
             
-        //     //cout<< itUnique[*itUnique]<<endl;
-        //     for (int k=0; k<9;k++) 
-        //     {
-        //         if(*itUnique>0) {
-        //             vector<int>::iterator it = find(solveFrame[i][k].begin(), solveFrame[i][k].end(), itUnique[*itUnique]); 
-        //             if (it != solveFrame[i][k].end()) {
-        //                 // solveFrame[i][k].resize(1);
-        //                 // solveFrame[i][k][0] = 0;
-        //                 // frame[i][k]=itUnique[*itUnique];
-        //             } 
-        //         }
-        //     }
-            
-            
-        // }
+            // find once occuring value in array and insert it in frame
+            sort(uniqueTempVec.begin(), uniqueTempVec.end()); 
+
+            // for(int z=0;z<uniqueTempVec.size();z++) {
+            //     cout<<uniqueTempVec[z]<< ' ';
+            // }
+            // cout<<endl; //visualize
+            if(uniqueTempVec.size() != 0) {
+                if (uniqueTempVec[0] != uniqueTempVec[1])
+                    for (int k=0; k<9; k++) 
+                    {
+                        vector<int>::iterator it = find(solveFrame[i][k].begin(), solveFrame[i][k].end(), uniqueTempVec[0]); 
+                        if (it != solveFrame[i][k].end()) {
+                            solveFrame[i][k].resize(1);
+                            solveFrame[i][k][0] = 0;
+                            frame[i][k]= uniqueTempVec[0];
+                        } 
+                    }
+                // Check for all the elements if it is different
+                // its adjacent elements
+                for (int p = 1; p < uniqueTempVec.size()- 1; p++)
+                    if (uniqueTempVec[p] != uniqueTempVec[p + 1] && uniqueTempVec[p] != uniqueTempVec[p - 1])
+                        for (int k=0; k<9; k++) 
+                        {
+                            vector<int>::iterator it = find(solveFrame[i][k].begin(), solveFrame[i][k].end(), uniqueTempVec[p]); 
+                            if (it != solveFrame[i][k].end()) {
+                                solveFrame[i][k].resize(1);
+                                solveFrame[i][k][0] = 0;
+                                frame[i][k]= uniqueTempVec[p];
+                            } 
+                        }
+                // Check for the last element
+                if (uniqueTempVec[uniqueTempVec.size() - 2] != uniqueTempVec[uniqueTempVec.size() - 1])
+                    for (int k=0; k<9; k++) 
+                    {
+                        vector<int>::iterator it = find(solveFrame[i][k].begin(), solveFrame[i][k].end(), uniqueTempVec[uniqueTempVec.size() - 1]); 
+                        if (it != solveFrame[i][k].end()) {
+                            solveFrame[i][k].resize(1);
+                            solveFrame[i][k][0] = 0;
+                            frame[i][k]= uniqueTempVec[uniqueTempVec.size() - 1];
+                        } 
+                    }
+            }
+        }
     }
     return;
 }
@@ -372,7 +396,8 @@ int main()
         horSolve(frame, horFrame);
         transpose(horFrame, verFrame);
         quitLoop++;
-        if(quitLoop ==50) {
+        previousIntCount = intCount;
+        if(quitLoop ==21) {
             intCount=81;
             cout<<"quit loop with max loops"<<endl;
             cout<<endl;
