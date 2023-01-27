@@ -2,8 +2,8 @@
 #include <algorithm>
 #include <vector>
 #include <fstream>
+#include <sstream>
 #include <chrono>
-#include <bits/stdc++.h>
 using namespace std;
 using namespace std::chrono;
 
@@ -383,9 +383,36 @@ void writeOutfile(int inputMatrix[9][9]) { // change , to ; for excel read
     }
     outFile.close();
   }
-  else cout << "Unable to open file";
+  else cerr << "error: file open failed."<<endl;
   return;
 
+}
+
+void readImportfile(string ImportFile) {
+    ifstream ReadableFile;
+    ReadableFile.open(ImportFile.c_str());
+    if (!ReadableFile.is_open()) {
+        cerr << "error: file open failed " << ImportFile << ".\n";
+        return;
+    }
+    string line;
+    vector<int> writeVector;
+    int val;       
+    while (getline(ReadableFile,line))
+    {    
+        stringstream ss(line);
+        int colIdx = 0;
+        while(ss >> val){ 
+            writeVector.push_back(val);
+            if(ss.peek() == ',') ss.ignore(); // shoudl also ignor ,,
+        }      
+    }
+
+    for (int i=0; i<writeVector.size();i++) {
+        cout<<writeVector[i]<< " ";
+    }
+    ReadableFile.close();
+    return;
 }
 
 int main()
@@ -396,7 +423,6 @@ int main()
     
     // initialize solving system
     intSolveSetup(frame);
-    
     // internal solving
     while(intCount<81) {
         intCount=0;
@@ -421,6 +447,7 @@ int main()
 
     visualiseVec3D(solveFrame);
     visualise(frame);
+    readImportfile("test.csv");
     writeOutfile(horFrame);
     return 0;
 }
