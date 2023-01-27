@@ -153,7 +153,7 @@ void intSolve(int inputMatrix[9][9])
         }
         tempVec.clear();
         // insert way of finding unique values among the initial the rows could introduce last solving step or introduce efficiency
-        if(quitLoop==20) { // remove this later now for testing
+        if(quitLoop>13) { // remove this later now for testing // between >13 something goes wrong
 
             // do I wanna keep it in the same i loop or make independent loops.
 
@@ -170,17 +170,21 @@ void intSolve(int inputMatrix[9][9])
             
             // find once occuring value in array and insert it in frame
             sort(uniqueTempVec.begin(), uniqueTempVec.end()); 
-
-            // for(int z=0;z<uniqueTempVec.size();z++) {
-            //     cout<<uniqueTempVec[z]<< ' ';
-            // }
-            // cout<<endl; //visualize
-            if(uniqueTempVec.size() != 0) {
+            if(quitLoop >18) {
+                for(int z=0;z<uniqueTempVec.size();z++) {
+                    cout<<uniqueTempVec[z]<< ' ';
+                }
+                cout<<endl; //visualize
+            }
+            if(uniqueTempVec.size() >2){ //!0 or >2
                 if (uniqueTempVec[0] != uniqueTempVec[1])
                     for (int k=0; k<9; k++) 
                     {
                         vector<int>::iterator it = find(solveFrame[i][k].begin(), solveFrame[i][k].end(), uniqueTempVec[0]); 
                         if (it != solveFrame[i][k].end()) {
+                            if(quitLoop >18) {
+                                cout<<"number del [1]: "<<uniqueTempVec[0]<<endl;
+                            }
                             solveFrame[i][k].resize(1);
                             solveFrame[i][k][0] = 0;
                             frame[i][k]= uniqueTempVec[0];
@@ -194,6 +198,9 @@ void intSolve(int inputMatrix[9][9])
                         {
                             vector<int>::iterator it = find(solveFrame[i][k].begin(), solveFrame[i][k].end(), uniqueTempVec[p]); 
                             if (it != solveFrame[i][k].end()) {
+                                if(quitLoop >18) {
+                                    cout<<"number del [2]: "<<uniqueTempVec[p]<<endl;
+                                }
                                 solveFrame[i][k].resize(1);
                                 solveFrame[i][k][0] = 0;
                                 frame[i][k]= uniqueTempVec[p];
@@ -205,6 +212,9 @@ void intSolve(int inputMatrix[9][9])
                     {
                         vector<int>::iterator it = find(solveFrame[i][k].begin(), solveFrame[i][k].end(), uniqueTempVec[uniqueTempVec.size() - 1]); 
                         if (it != solveFrame[i][k].end()) {
+                            if(quitLoop >18) {
+                                cout<<"number del [3]: "<<uniqueTempVec[uniqueTempVec.size() - 1]<<endl;
+                            }
                             solveFrame[i][k].resize(1);
                             solveFrame[i][k][0] = 0;
                             frame[i][k]= uniqueTempVec[uniqueTempVec.size() - 1];
@@ -348,29 +358,27 @@ void visualiseVec3D(vector<vector<vector<int>>>& vec) {
     return;
 }
 
-void writeOutfile(int inputMatrix[9][9]) {
-  ofstream outFile ("output.txt");
+void writeOutfile(int inputMatrix[9][9]) { // change , to ; for excel read
+  ofstream outFile ("output.csv");
   if (outFile.is_open())
   {
     for(int i = 0; i < 9; i++){
-        for(int j=0; j<9; j++) {
-            outFile << inputMatrix[i][j] << " " ;
+        for(int j=0; j<9; j++) { // every line has 9 characters
+            
+            outFile << inputMatrix[i][j] <<",";
             if (j==2) {
-                outFile << "  ";
+                outFile << ",";
             }
             if (j==5) {
-                outFile << "  ";
-            }
-            if (j==8) {
-                outFile << "  ";
+                outFile << ",";
             }
         }
         outFile << "\n";
-        if (i==2) {
-            outFile << "\n";
+        if(i==2) {
+            outFile<<"\n";
         }
-        if (i==5) {
-            outFile << "\n";
+        if(i==5) {
+            outFile<<"\n";
         }
     }
     outFile.close();
@@ -395,6 +403,9 @@ int main()
         intSolve(frame);
         horSolve(frame, horFrame);
         transpose(horFrame, verFrame);
+        if(quitLoop >18) {
+            visualise(frame);
+        }
         quitLoop++;
         previousIntCount = intCount;
         if(quitLoop ==21) {
@@ -410,6 +421,6 @@ int main()
 
     visualiseVec3D(solveFrame);
     visualise(frame);
-    writeOutfile(frame);
+    writeOutfile(horFrame);
     return 0;
 }
