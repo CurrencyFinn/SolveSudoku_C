@@ -41,7 +41,6 @@ void intSolveSetup(int inputMatrix[9][9])
     }
     return;
 }
-
 void intSolve(int inputMatrix[9][9])
 {
     for (int i =0; i<9; i++)
@@ -56,8 +55,7 @@ void intSolve(int inputMatrix[9][9])
                         tempVec.push_back(inputMatrix[i][j]);
                     }
                 }
-                //every single position on the frame // tempVec !=8 so it doesnt have to solve horizontal and vertical because its already has the solution by internal solving
-                if (tempVec.size() != 8) {
+                if (tempVec.size() != 8) { //every single position on the frame // tempVec !=8 so it doesnt have to solve horizontal and vertical because its already has the solution by internal solving
                     vector<int> PositionVec;
                     if(i<3) {
                         if(k<3) {
@@ -118,7 +116,6 @@ void intSolve(int inputMatrix[9][9])
                                 tempVec.push_back(verFrame[(k-6)+3*(i-6)][p]);
                             }
                         }
-
                         // add positional values for row and column values as input i and k! where i is outside array and k is inside array.
                         // For 3 every steps, horizontal increases by 1, while inside these 3 steps vertical increases 1 step, could be aloged to improve clarity and compact the code
                     }
@@ -128,12 +125,10 @@ void intSolve(int inputMatrix[9][9])
                 if (tempVec[0] == 0) {
                     tempVec.erase(tempVec.begin());
                 }
-
                 // for(int i=0;i<tempVec.size();i++) {
                 //     cout<<tempVec[i]<<' ';
                 // }
                 // cout<<endl; // visualize solving
-
                 if (solveFrame[i][k][0] != 0) {
                     for (int l=0; l<tempVec.size(); l++) {
                         vector<int>::iterator it = find(solveFrame[i][k].begin(), solveFrame[i][k].end(), tempVec[l]); 
@@ -154,9 +149,7 @@ void intSolve(int inputMatrix[9][9])
         tempVec.clear();
         // insert way of finding unique values among the initial the rows could introduce last solving step or introduce efficiency
         if(quitLoop>13) { // remove this later now for testing // between >13 something goes wrong
-
             // do I wanna keep it in the same i loop or make independent loops.
-
             vector<int> uniqueTempVec;
             // create all possible values in an vector 
             for (int k=0; k<solveFrame[i].size();k++) 
@@ -167,7 +160,6 @@ void intSolve(int inputMatrix[9][9])
                     }
                 }
             }
-            
             // find once occuring value in array and insert it in frame
             sort(uniqueTempVec.begin(), uniqueTempVec.end()); 
             if(quitLoop >18) {
@@ -176,7 +168,7 @@ void intSolve(int inputMatrix[9][9])
                 }
                 cout<<endl; //visualize
             }
-            if(uniqueTempVec.size() >2){ //!0 or >2
+            if(uniqueTempVec.size() >2){ // !0 or >2
                 if (uniqueTempVec[0] != uniqueTempVec[1])
                     for (int k=0; k<9; k++) 
                     {
@@ -225,8 +217,7 @@ void intSolve(int inputMatrix[9][9])
     }
     return;
 }
-// horizonatal rows
-void horSolve(int inputMatrix[9][9], int outputMatrix[9][9])
+void horSolve(int inputMatrix[9][9], int outputMatrix[9][9]) // horizonatal rows
 {
     int acount = 0;
     int bcount = 0;
@@ -323,7 +314,6 @@ void horSolve(int inputMatrix[9][9], int outputMatrix[9][9])
     }
     return;
 }
-
 void transpose(int inputMatrix[9][9], int outputMatrix[9][9]) {
      for (int i = 0; i < 9; i++) {
         for (int j = 0; j < 9; j++) {
@@ -331,7 +321,6 @@ void transpose(int inputMatrix[9][9], int outputMatrix[9][9]) {
       }
     }
 }
-
 void visualise(int matrix[9][9]) {
     for (int i=0; i<9; i++) {
         for(int j=0; j<9; j++){
@@ -342,7 +331,6 @@ void visualise(int matrix[9][9]) {
     cout << endl;
     return;
 }
-
 void visualiseVec3D(vector<vector<vector<int>>>& vec) {
     for (int i=0; i<vec.size(); i++) {
         for(int j=0; j != vec[i].size(); j++){
@@ -357,8 +345,7 @@ void visualiseVec3D(vector<vector<vector<int>>>& vec) {
     cout << endl;
     return;
 }
-
-void writeOutfile(int inputMatrix[9][9]) { // change , to ; for excel read
+void writeOutfile(int inputMatrix[9][9]) { // change , to ; for excel read // must be the horizontal frame
   ofstream outFile ("output.csv");
   if (outFile.is_open())
   {
@@ -385,9 +372,7 @@ void writeOutfile(int inputMatrix[9][9]) { // change , to ; for excel read
   }
   else cerr << "error: file open failed."<<endl;
   return;
-
 }
-
 void readImportfile(string ImportFile) {
     ifstream ReadableFile;
     ReadableFile.open(ImportFile.c_str());
@@ -396,35 +381,40 @@ void readImportfile(string ImportFile) {
         return;
     }
     string line;
-    vector<int> writeVector;
+    vector<vector<int>> writeVector;
+    int importMatrix[9][9];
+    int outputMatrix[9][9];
     int val;       
+    int outerIndex =0;
+    int innerIndex =0;
     while (getline(ReadableFile,line))
     {    
         stringstream ss(line);
-        int colIdx = 0;
         while(ss >> val){ 
-            writeVector.push_back(val);
-            if(ss.peek() == ',') ss.ignore(); // shoudl also ignor ,,
+            if(innerIndex >8) {
+                outerIndex++;
+                innerIndex = 0;
+            }
+            importMatrix[outerIndex][innerIndex] = val;
+            innerIndex++;
+            if(ss.peek() == ',') ss.ignore();
+            if(ss.peek() == ',') {
+                ss.ignore();
+            }
         }      
     }
-
-    for (int i=0; i<writeVector.size();i++) {
-        cout<<writeVector[i]<< " ";
-    }
+    horSolve(importMatrix, outputMatrix); //outputMatrix is frame.
     ReadableFile.close();
     return;
 }
-
 int main()
 {   
     auto start = high_resolution_clock::now();
     horSolve(frame, horFrame);
     transpose(horFrame, verFrame);
-    
-    // initialize solving system
-    intSolveSetup(frame);
-    // internal solving
-    while(intCount<81) {
+    visualise(horFrame);
+    intSolveSetup(frame);  // initialize solving system
+    while(intCount<81) { // internal solving
         intCount=0;
         intSolve(frame);
         horSolve(frame, horFrame);
@@ -440,14 +430,11 @@ int main()
             cout<<endl;
         }
     }
-
     auto stop = high_resolution_clock::now();
     auto duration = duration_cast<microseconds>(stop - start);
     cout<<"After " << quitLoop<< " procedures sudoku was solved in: "<<duration.count()<<endl;
-
     visualiseVec3D(solveFrame);
     visualise(frame);
-    readImportfile("test.csv");
     writeOutfile(horFrame);
     return 0;
 }
