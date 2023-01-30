@@ -17,14 +17,15 @@ For internally solving that 9 smaller 3 * 3 Matrixes input the frame.
 To solve for horizontal rows. First use hor_solve, then int_solve, then reuse hor_solve with reversed order. For the vertical columns this same step is done,
 with the addition of a tranpose. 
 
+## Reading and Writing:
+
+The final executable file runs on imported csv files, that can be easily visualized for people to create a suduoku. Ron's CSV editor can be a ease of use. After excicuting not only will the console log information, also a external output will be made that can be hung on the side of your bed.
 
 This can then finally be looped over with a "while True" loop that stops (False) at the point there is not addition of a zero in the full loop (internal, vertical, horizontal solving).
 
-## updates:
+## current bugs:
 
-* Combining row and internal operation together (number of 0 > 2).
-    ** will be done by filling in all possible values at position (and therefore easy way of combining operations)
-* Picture input read towards right frame.
+Internal solving still has some issues at specific position, can be seen by running the file with full debug explenation
 
 ## preformance:
 
