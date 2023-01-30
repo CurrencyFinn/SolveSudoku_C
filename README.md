@@ -23,7 +23,7 @@ The final executable file runs on imported csv files, that can be easily visuali
 
 This can then finally be looped over with a "while True" loop that stops (False) at the point there is not addition of a zero in the full loop (internal, vertical, horizontal solving).
 
-## current bugs:
+## Current bugs:
 
 Internal solving still has some issues at specific position, can be seen by running the file with full debug explenation
 
