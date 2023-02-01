@@ -39,11 +39,11 @@ function draw() {
         fill(220);
         rect(cell_size*(1/2+x)+10, cell_size*(1/2+y)+10, cell_size-20,cell_size-20)
       pop();
-      informationArray[x][y] = 0;
+      informationArray[y][x] = 0;
     }
     if(Number.isInteger(Number(realKey)) && realKey>0) {
-      if(informationArray[x][y]!=0) {
-        informationArray[x][y] = 0;
+      if(informationArray[y][x]!=0) {
+        informationArray[y][x] = 0;
         push();
         fill(220);
         rect(cell_size*(1/2+x)+10, cell_size*(1/2+y)+10, cell_size-20,cell_size-20)
@@ -52,7 +52,7 @@ function draw() {
       textAlign(CENTER, CENTER);
       textSize(36);
       text(realKey, x*cell_size+cell_size,y*cell_size+cell_size);
-      informationArray[x][y] = realKey;
+      informationArray[y][x] = realKey;
     }
   }
 }
@@ -82,7 +82,7 @@ function exportCSV() {
     method:'GET',
     responseType: 'blob'
   })
-  .then((response) => {
+  .then(() => {
     const url = window.URL
     .createObjectURL(new Blob([outFile]));
             const link = document.createElement('a');
