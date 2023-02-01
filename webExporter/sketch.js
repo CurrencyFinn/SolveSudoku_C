@@ -34,6 +34,13 @@ function draw() {
       return;
     }
     realKey = String.fromCharCode(keyCode);
+    if(keyCode == 46 || keyCode == 8) {
+      push();
+        fill(220);
+        rect(cell_size*(1/2+x)+10, cell_size*(1/2+y)+10, cell_size-20,cell_size-20)
+      pop();
+      informationArray[x][y] = 0;
+    }
     if(Number.isInteger(Number(realKey)) && realKey>0) {
       if(informationArray[x][y]!=0) {
         informationArray[x][y] = 0;
