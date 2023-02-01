@@ -115,7 +115,7 @@ function exportCSV() {
     }
   }
   axios({
-    url:'http://127.0.0.1:5500/',
+    url:'https://currencyfinn.github.io/SolveSudoku_C/webExporter/',
     method:'GET',
     responseType: 'blob'
   })
