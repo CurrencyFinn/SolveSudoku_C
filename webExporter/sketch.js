@@ -1,13 +1,14 @@
+var cell_size;
+let width;
+if(innerWidth >950) {
+  width = 900;
+} else {
+  width = 450;
+}
+cell_size = width/10;
 let informationArray = [[] ,[] , [], [], [], [], [], [], []];
 function setup() {
-  var width;
-  if(windowWidth >950) {
-    width = 900;
-  } else {
-    width = 300;
-  }
-  var cell_size = width/10;
-  var height = width;
+  let height = width;
   let exportButton = createButton('Export to CSV');
   exportButton.position(50, 100);
   exportButton.mousePressed(exportCSV);
@@ -30,7 +31,38 @@ function setup() {
   }
 }
 function draw() {
-  
+  // if(windowWidth < 950) {
+  //   if(mouseIsPressed) {
+  //     //phone should open keyboard for that specicifc position
+  //     x = round(mouseX/cell_size)-1
+  //     y = round(mouseY/cell_size)-1
+  //     if(x>8 || x<0 || y>8 || y<0) {
+  //         return;
+  //     }
+  //     let inp = createInput('');
+  //     inp.position(x*cell_size+cell_sizeh,y*cell_size+cell_size);
+  //     inp.size(5);
+  //     inp.parent("sketchHolder");
+  //     inp.input(myInputEvent) 
+  //     function myInputEvent() {
+  //       if(Number(this.value() > 0 || this.value() < 10)) {
+  //         textAlign(CENTER, CENTER);
+  //         textSize(36);
+  //         if(informationArray[y][x]!=0) {
+  //           informationArray[y][x] = 0;
+  //           push();
+  //           fill(220);
+  //           rect(cell_size*(1/2+x)+10, cell_size*(1/2+y)+10, cell_size-20,cell_size-20)
+  //           pop();
+  //         }
+  //         text(this.value(), x*cell_size+cell_size,y*cell_size+cell_size);
+  //         informationArray[y][x] = this.value();
+  //         inp.hide()
+  //       }
+  //     }
+
+  //   }  
+  // }
   noStroke();
   if(keyIsPressed) {
     x = round(mouseX/cell_size)-1
