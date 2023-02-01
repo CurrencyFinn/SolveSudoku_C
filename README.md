@@ -1,6 +1,7 @@
 # SolveSudoku_C
 defeating grannies in no time
 
+https://currencyfinn.github.io/SolveSudoku_C/
 
 ## hor_solve():
 
@@ -22,6 +23,8 @@ with the addition of a tranpose.
 The final executable file runs on imported csv files, that can be easily visualized for people to create a suduoku. Ron's CSV editor can be a ease of use. After excicuting not only will the console log information, also a external output will be made that can be hung on the side of your bed.
 
 This can then finally be looped over with a "while True" loop that stops (False) at the point there is not addition of a zero in the full loop (internal, vertical, horizontal solving).
+
+Visual sudoku, with export CSV (to import in solve.cpp) https://currencyfinn.github.io/SolveSudoku_C/webExporter/. 
 
 ## Current bugs:
 
