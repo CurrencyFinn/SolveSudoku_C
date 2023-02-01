@@ -1,9 +1,13 @@
-
-var cell_size = 90;
 let informationArray = [[] ,[] , [], [], [], [], [], [], []];
 function setup() {
-  let width = 900;
-  let height = 900;
+  var width;
+  if(windowWidth >950) {
+    width = 900;
+  } else {
+    width = 300;
+  }
+  var cell_size = width/10;
+  var height = width;
   let exportButton = createButton('Export to CSV');
   exportButton.position(50, 100);
   exportButton.mousePressed(exportCSV);
@@ -26,6 +30,7 @@ function setup() {
   }
 }
 function draw() {
+  
   noStroke();
   if(keyIsPressed) {
     x = round(mouseX/cell_size)-1
