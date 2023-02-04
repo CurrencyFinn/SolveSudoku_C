@@ -8,9 +8,11 @@ using namespace std;
 using namespace std::chrono;
 
 // 0 => no entry
-int frame[9][9] = { {0,1,0,8,0,0,0,0,3}, {5,6,0,0,0,0,0,0,0}, {0,0,0,6,7,5,0,0,0}, {4,0,0,0,0,0,3,0,0}, {9,0,5,8,0,0,0,0,0}, {0,0,8,0,1,0,0,0,6}, {9,0,2,0,3,7,0,0,6}, {7,5,0,0,0,4,0,8,0}, {0,0,0,2,0,0,5,9,0} }; 
+//int frame[9][9] = { {0,1,0,8,0,0,0,0,3}, {5,6,0,0,0,0,0,0,0}, {0,0,0,6,7,5,0,0,0}, {4,0,0,0,0,0,3,0,0}, {9,0,5,8,0,0,0,0,0}, {0,0,8,0,1,0,0,0,6}, {9,0,2,0,3,7,0,0,6}, {7,5,0,0,0,4,0,8,0}, {0,0,0,2,0,0,5,9,0} }; 
 //int frame[9][9] = { {5,3,0,6,0,0,0,9,8}, {0,7,0,1,9,5,0,0,0}, {0,0,0,0,0,0,0,6,0}, {8,0,0,4,0,0,7,0,0}, {0,6,0,8,0,3,0,2,0}, {0,0,3,0,0,1,0,0,6}, {0,6,0,0,0,0,0,0,0}, {0,0,0,4,1,9,0,8,0}, {2,8,0,0,0,5,0,7,9} }; // wikipedia sudoku
 //int frame[9][9] = { {4,8,1,7,6,9,3,5,0}, {5,6,0,3,2,4,0,7,0}, {3,0,0,0,5,0,6,0,0}, {0,9,7,1,0,0,5,4,0}, {0,8,5,0,0,6,1,0,0}, {2,1,0,5,4,0,0,8,6}, {0,7,6,2,0,5,9,3,4}, {9,5,3,0,4,0,0,0,0}, {0,2,0,0,3,0,0,6,5} }; //filled in png
+int importMatrix[9][9];
+int outputMatrix[9][9];
 int horFrame[9][9];
 int verFrame[9][9];
 int checkArray[9] = {1,2,3,4,5,6,7,8,9};
@@ -19,7 +21,6 @@ int intCount =0;
 int intCountInternal =0;
 int quitLoop =0;
 int partialFrameChecker = 0;
-
 
 void intSolveSetup(int inputMatrix[9][9])
 {
@@ -48,7 +49,7 @@ void intSolve(int inputMatrix[9][9])
         vector<int> tempVec;
         for (int k=0; k<9; k++) 
         {
-            if(frame[i][k] ==0) {
+            if(inputMatrix[i][k] ==0) {
                 tempVec.clear();
                 for (int j=0; j<9; j++) {
                     if (inputMatrix[i][j] != 0) {
@@ -132,12 +133,11 @@ void intSolve(int inputMatrix[9][9])
                         vector<int>::iterator it = find(solveFrame[i][k].begin(), solveFrame[i][k].end(), tempVec[l]); 
                         if (it != solveFrame[i][k].end()) {
                             solveFrame[i][k].erase(it);
-                            cout<<i<<k<<endl;
                             intCountInternal++;
                         } 
                     }
                     if (solveFrame[i][k].size() == 1) {
-                        frame[i][k] = solveFrame[i][k][0];
+                        inputMatrix[i][k] = solveFrame[i][k][0];
                         solveFrame[i][k][0] = 0;
                     }
                 } 
@@ -160,10 +160,10 @@ void intSolve(int inputMatrix[9][9])
                 }
             }
             sort(uniqueTempVec.begin(), uniqueTempVec.end()); 
-            for(int z=0;z<uniqueTempVec.size();z++) {
-                cout<<uniqueTempVec[z]<< ' ';
-            }
-            cout<<endl; //visualize
+            // for(int z=0;z<uniqueTempVec.size();z++) {
+            //     cout<<uniqueTempVec[z]<< ' ';
+            // }
+            // cout<<endl; //visualize
             if(uniqueTempVec.size() >1){ // !0 or >2
                 if (uniqueTempVec[0] != uniqueTempVec[1])
                     for (int k=0; k<9; k++) 
@@ -171,7 +171,7 @@ void intSolve(int inputMatrix[9][9])
                         vector<int>::iterator it = find(solveFrame[i][k].begin(), solveFrame[i][k].end(), uniqueTempVec[0]); 
                         if (it != solveFrame[i][k].end()) {
                             for(int l=0;l<9;l++) {
-                                if(frame[i][l] == uniqueTempVec[0]) {
+                                if(inputMatrix[i][l] == uniqueTempVec[0]) {
                                     solveFrame[i][k].erase(it);
                                     partialFrameChecker++;
                                 }
@@ -179,8 +179,7 @@ void intSolve(int inputMatrix[9][9])
                             if (partialFrameChecker== 0){ 
                                 solveFrame[i][k].resize(1);
                                 solveFrame[i][k][0] = 0;
-                                frame[i][k]= uniqueTempVec[0];
-                                cout<<i <<k <<endl;
+                                inputMatrix[i][k]= uniqueTempVec[0];
                             } else {
                                 partialFrameChecker =0;
                             }
@@ -194,7 +193,7 @@ void intSolve(int inputMatrix[9][9])
                             vector<int>::iterator it = find(solveFrame[i][k].begin(), solveFrame[i][k].end(), uniqueTempVec[p]); 
                             if (it != solveFrame[i][k].end()) {
                                 for(int l=0;l<9;l++) {
-                                    if(frame[i][l] == uniqueTempVec[p]) {
+                                    if(inputMatrix[i][l] == uniqueTempVec[p]) {
                                         solveFrame[i][k].erase(it);
                                         partialFrameChecker++;
                                     }
@@ -202,8 +201,7 @@ void intSolve(int inputMatrix[9][9])
                                 if (partialFrameChecker== 0){ 
                                 solveFrame[i][k].resize(1);
                                 solveFrame[i][k][0] = 0;
-                                frame[i][k]= uniqueTempVec[p];
-                                cout<<i <<k <<endl;
+                                inputMatrix[i][k]= uniqueTempVec[p];
                                 } else {
                                     partialFrameChecker=0;
                                 }
@@ -216,7 +214,7 @@ void intSolve(int inputMatrix[9][9])
                         vector<int>::iterator it = find(solveFrame[i][k].begin(), solveFrame[i][k].end(), uniqueTempVec[uniqueTempVec.size() - 1]); 
                         if (it != solveFrame[i][k].end()) {
                             for(int l=0;l<9;l++) {
-                                if(frame[i][l] == uniqueTempVec[uniqueTempVec.size() - 1]) {
+                                if(inputMatrix[i][l] == uniqueTempVec[uniqueTempVec.size() - 1]) {
                                     solveFrame[i][k].erase(it);
                                     partialFrameChecker++;
                                 }
@@ -224,9 +222,7 @@ void intSolve(int inputMatrix[9][9])
                             if (partialFrameChecker== 0){ 
                                 solveFrame[i][k].resize(1);
                                 solveFrame[i][k][0] = 0;
-                                frame[i][k]= uniqueTempVec[uniqueTempVec.size() - 1];
-                                cout<<i <<k <<endl;
-                                cout<<i <<k <<endl;
+                                inputMatrix[i][k]= uniqueTempVec[uniqueTempVec.size() - 1];
                             } else {
                                 partialFrameChecker=0;
                             }
@@ -368,7 +364,7 @@ void visualiseVec3D(vector<vector<vector<int>>>& vec) {
     return;
 }
 void writeOutfile(int inputMatrix[9][9]) { // change , to ; for excel read // must be the horizontal frame
-  ofstream outFile ("output.csv");
+  ofstream outFile ("resources\\output.csv");
   if (outFile.is_open())
   {
     for(int i = 0; i < 9; i++){
@@ -397,15 +393,13 @@ void writeOutfile(int inputMatrix[9][9]) { // change , to ; for excel read // mu
 }
 void readImportfile(string ImportFile) {
     ifstream ReadableFile;
-    ReadableFile.open(ImportFile.c_str());
+    ReadableFile.open("resources\\"+ImportFile);
     if (!ReadableFile.is_open()) {
         cerr << "error: file open failed " << ImportFile << ".\n";
         return;
     }
     string line;
     vector<vector<int>> writeVector;
-    int importMatrix[9][9];
-    int outputMatrix[9][9];
     int val;       
     int outerIndex =0;
     int innerIndex =0;
@@ -431,21 +425,21 @@ void readImportfile(string ImportFile) {
 }
 int main()
 {   
+    string impFile;
+    cout<<"Name import file: ";
+    cin>> impFile;
     auto start = high_resolution_clock::now();
-    horSolve(frame, horFrame);
+    readImportfile(impFile);
+    horSolve(outputMatrix, horFrame);
     transpose(horFrame, verFrame);
-    intSolveSetup(frame);  // initialize solving system
+    intSolveSetup(outputMatrix);  // initialize solving system
     while(intCount<81) { // internal solving
         intCount=0;
-        intSolve(frame);
-        horSolve(frame, horFrame);
+        intSolve(outputMatrix);
+        horSolve(outputMatrix, horFrame);
         transpose(horFrame, verFrame);
-        if(quitLoop >18) {
-            visualiseVec3D(solveFrame);
-            visualise(frame);
-        }
         quitLoop++;
-        if(quitLoop ==21) {
+        if(quitLoop ==100) { // max loops that will be ran.
             intCount=81;
             cout<<"quit loop with max loops"<<endl;
             cout<<endl;
@@ -453,9 +447,9 @@ int main()
     }
     auto stop = high_resolution_clock::now();
     auto duration = duration_cast<microseconds>(stop - start);
-    cout<<"After " << quitLoop<< " procedures sudoku was solved in: "<<duration.count()<<endl;
-    visualiseVec3D(solveFrame);
-    visualise(frame);
+    cout<<"After " << quitLoop<< " procedures sudoku was solved in: "<<duration.count()<< "ms" <<endl;
+    //visualiseVec3D(solveFrame); // should be all 0 for debug.
+    visualise(outputMatrix);
     writeOutfile(horFrame);
     return 0;
 }
