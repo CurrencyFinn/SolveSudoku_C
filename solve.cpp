@@ -13,12 +13,13 @@ int frame[9][9] = { {0,1,0,8,0,0,0,0,3}, {5,6,0,0,0,0,0,0,0}, {0,0,0,6,7,5,0,0,0
 //int frame[9][9] = { {4,8,1,7,6,9,3,5,0}, {5,6,0,3,2,4,0,7,0}, {3,0,0,0,5,0,6,0,0}, {0,9,7,1,0,0,5,4,0}, {0,8,5,0,0,6,1,0,0}, {2,1,0,5,4,0,0,8,6}, {0,7,6,2,0,5,9,3,4}, {9,5,3,0,4,0,0,0,0}, {0,2,0,0,3,0,0,6,5} }; //filled in png
 int horFrame[9][9];
 int verFrame[9][9];
-//int outputFrame[9][9];
 int checkArray[9] = {1,2,3,4,5,6,7,8,9};
 vector<vector<vector<int>>> solveFrame(9, vector<vector<int> > (9, vector<int>(9)));
 int intCount =0;
-int previousIntCount=0;
+int intCountInternal =0;
 int quitLoop =0;
+int partialFrameChecker = 0;
+
 
 void intSolveSetup(int inputMatrix[9][9])
 {
@@ -26,7 +27,6 @@ void intSolveSetup(int inputMatrix[9][9])
         for(int j = 0; j != solveFrame[i].size(); j++)
         {   
             if (inputMatrix[i][j] != 0) {
-                //outputFrame[i][j] = inputMatrix[i][j]; // only shows filled in entries
                 solveFrame[i][j].resize(1);
                 solveFrame[i][j][0] = 0;
             }
@@ -55,7 +55,7 @@ void intSolve(int inputMatrix[9][9])
                         tempVec.push_back(inputMatrix[i][j]);
                     }
                 }
-                if (tempVec.size() != 8) { //every single position on the frame // tempVec !=8 so it doesnt have to solve horizontal and vertical because its already has the solution by internal solving
+                if (tempVec.size() != 8) { // tempVec !=8 sono need to solve horizontal and vertical
                     vector<int> PositionVec;
                     if(i<3) {
                         if(k<3) {
@@ -116,12 +116,10 @@ void intSolve(int inputMatrix[9][9])
                                 tempVec.push_back(verFrame[(k-6)+3*(i-6)][p]);
                             }
                         }
-                        // add positional values for row and column values as input i and k! where i is outside array and k is inside array.
-                        // For 3 every steps, horizontal increases by 1, while inside these 3 steps vertical increases 1 step, could be aloged to improve clarity and compact the code
                     }
                 }
                 sort(tempVec.begin(), tempVec.end()); // below
-                tempVec.erase(unique(tempVec.begin(),tempVec.end()), tempVec.end()); // have to test if this speeds up the n^2 loop size 
+                tempVec.erase(unique(tempVec.begin(),tempVec.end()), tempVec.end()); 
                 if (tempVec[0] == 0) {
                     tempVec.erase(tempVec.begin());
                 }
@@ -134,6 +132,8 @@ void intSolve(int inputMatrix[9][9])
                         vector<int>::iterator it = find(solveFrame[i][k].begin(), solveFrame[i][k].end(), tempVec[l]); 
                         if (it != solveFrame[i][k].end()) {
                             solveFrame[i][k].erase(it);
+                            cout<<i<<k<<endl;
+                            intCountInternal++;
                         } 
                     }
                     if (solveFrame[i][k].size() == 1) {
@@ -147,9 +147,8 @@ void intSolve(int inputMatrix[9][9])
             }
         }
         tempVec.clear();
-        // insert way of finding unique values among the initial the rows could introduce last solving step or introduce efficiency
-        if(quitLoop>13) { // remove this later now for testing // between >13 something goes wrong
-            // do I wanna keep it in the same i loop or make independent loops.
+        
+        if(intCountInternal==0) { // remove this later now for testing // between >13 something goes wrong
             vector<int> uniqueTempVec;
             // create all possible values in an vector 
             for (int k=0; k<solveFrame[i].size();k++) 
@@ -160,42 +159,54 @@ void intSolve(int inputMatrix[9][9])
                     }
                 }
             }
-            // find once occuring value in array and insert it in frame
             sort(uniqueTempVec.begin(), uniqueTempVec.end()); 
-            if(quitLoop >18) {
-                for(int z=0;z<uniqueTempVec.size();z++) {
-                    cout<<uniqueTempVec[z]<< ' ';
-                }
-                cout<<endl; //visualize
+            for(int z=0;z<uniqueTempVec.size();z++) {
+                cout<<uniqueTempVec[z]<< ' ';
             }
-            if(uniqueTempVec.size() >2){ // !0 or >2
+            cout<<endl; //visualize
+            if(uniqueTempVec.size() >1){ // !0 or >2
                 if (uniqueTempVec[0] != uniqueTempVec[1])
                     for (int k=0; k<9; k++) 
                     {
                         vector<int>::iterator it = find(solveFrame[i][k].begin(), solveFrame[i][k].end(), uniqueTempVec[0]); 
                         if (it != solveFrame[i][k].end()) {
-                            if(quitLoop >18) {
-                                cout<<"number del [1]: "<<uniqueTempVec[0]<<endl;
+                            for(int l=0;l<9;l++) {
+                                if(frame[i][l] == uniqueTempVec[0]) {
+                                    solveFrame[i][k].erase(it);
+                                    partialFrameChecker++;
+                                }
                             }
-                            solveFrame[i][k].resize(1);
-                            solveFrame[i][k][0] = 0;
-                            frame[i][k]= uniqueTempVec[0];
+                            if (partialFrameChecker== 0){ 
+                                solveFrame[i][k].resize(1);
+                                solveFrame[i][k][0] = 0;
+                                frame[i][k]= uniqueTempVec[0];
+                                cout<<i <<k <<endl;
+                            } else {
+                                partialFrameChecker =0;
+                            }
                         } 
                     }
-                // Check for all the elements if it is different
-                // its adjacent elements
+                // Adjecent cell check
                 for (int p = 1; p < uniqueTempVec.size()- 1; p++)
                     if (uniqueTempVec[p] != uniqueTempVec[p + 1] && uniqueTempVec[p] != uniqueTempVec[p - 1])
                         for (int k=0; k<9; k++) 
                         {
                             vector<int>::iterator it = find(solveFrame[i][k].begin(), solveFrame[i][k].end(), uniqueTempVec[p]); 
                             if (it != solveFrame[i][k].end()) {
-                                if(quitLoop >18) {
-                                    cout<<"number del [2]: "<<uniqueTempVec[p]<<endl;
+                                for(int l=0;l<9;l++) {
+                                    if(frame[i][l] == uniqueTempVec[p]) {
+                                        solveFrame[i][k].erase(it);
+                                        partialFrameChecker++;
+                                    }
                                 }
+                                if (partialFrameChecker== 0){ 
                                 solveFrame[i][k].resize(1);
                                 solveFrame[i][k][0] = 0;
                                 frame[i][k]= uniqueTempVec[p];
+                                cout<<i <<k <<endl;
+                                } else {
+                                    partialFrameChecker=0;
+                                }
                             } 
                         }
                 // Check for the last element
@@ -204,16 +215,27 @@ void intSolve(int inputMatrix[9][9])
                     {
                         vector<int>::iterator it = find(solveFrame[i][k].begin(), solveFrame[i][k].end(), uniqueTempVec[uniqueTempVec.size() - 1]); 
                         if (it != solveFrame[i][k].end()) {
-                            if(quitLoop >18) {
-                                cout<<"number del [3]: "<<uniqueTempVec[uniqueTempVec.size() - 1]<<endl;
+                            for(int l=0;l<9;l++) {
+                                if(frame[i][l] == uniqueTempVec[uniqueTempVec.size() - 1]) {
+                                    solveFrame[i][k].erase(it);
+                                    partialFrameChecker++;
+                                }
                             }
-                            solveFrame[i][k].resize(1);
-                            solveFrame[i][k][0] = 0;
-                            frame[i][k]= uniqueTempVec[uniqueTempVec.size() - 1];
+                            if (partialFrameChecker== 0){ 
+                                solveFrame[i][k].resize(1);
+                                solveFrame[i][k][0] = 0;
+                                frame[i][k]= uniqueTempVec[uniqueTempVec.size() - 1];
+                                cout<<i <<k <<endl;
+                                cout<<i <<k <<endl;
+                            } else {
+                                partialFrameChecker=0;
+                            }
+                            
                         } 
                     }
             }
         }
+        intCountInternal =0;
     }
     return;
 }
@@ -412,7 +434,6 @@ int main()
     auto start = high_resolution_clock::now();
     horSolve(frame, horFrame);
     transpose(horFrame, verFrame);
-    visualise(horFrame);
     intSolveSetup(frame);  // initialize solving system
     while(intCount<81) { // internal solving
         intCount=0;
@@ -420,10 +441,10 @@ int main()
         horSolve(frame, horFrame);
         transpose(horFrame, verFrame);
         if(quitLoop >18) {
+            visualiseVec3D(solveFrame);
             visualise(frame);
         }
         quitLoop++;
-        previousIntCount = intCount;
         if(quitLoop ==21) {
             intCount=81;
             cout<<"quit loop with max loops"<<endl;
