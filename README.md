@@ -28,7 +28,7 @@ Visual sudoku, with export CSV (to import in solve.cpp) https://currencyfinn.git
 
 ## Current bugs:
 
-Internal solving still has some issues at specific position, can be seen by running the file with full debug explenation
+Internal solving still has some issues at specific position, can be seen by running the file with full debug explanation. <- **bug detected + problem found.
 
 ## preformance:
 
