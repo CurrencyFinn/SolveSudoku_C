@@ -174,7 +174,16 @@ void intSolve(int inputMatrix[9][9])
                                 if(inputMatrix[i][l] == uniqueTempVec[0]) {
                                     solveFrame[i][k].erase(it);
                                     partialFrameChecker++;
-                                }
+                                } 
+                                // else
+                                // if(horFrame[i][l] == uniqueTempVec[0]) {
+                                //     solveFrame[i][k].erase(it);
+                                //     partialFrameChecker++;
+                                // } else
+                                // if(verFrame[i][l] == uniqueTempVec[0]) {
+                                //     solveFrame[i][k].erase(it);
+                                //     partialFrameChecker++;
+                                // }
                             }
                             if (partialFrameChecker== 0){ 
                                 solveFrame[i][k].resize(1);
@@ -196,7 +205,16 @@ void intSolve(int inputMatrix[9][9])
                                     if(inputMatrix[i][l] == uniqueTempVec[p]) {
                                         solveFrame[i][k].erase(it);
                                         partialFrameChecker++;
-                                    }
+                                    } 
+                                    // else
+                                    // if(horFrame[i][l] == uniqueTempVec[p]) {
+                                    //     solveFrame[i][k].erase(it);
+                                    //     partialFrameChecker++;
+                                    // } else
+                                    // if(verFrame[i][l] == uniqueTempVec[p]) {
+                                    //     solveFrame[i][k].erase(it);
+                                    //     partialFrameChecker++;
+                                    // }
                                 }
                                 if (partialFrameChecker== 0){ 
                                 solveFrame[i][k].resize(1);
@@ -217,7 +235,16 @@ void intSolve(int inputMatrix[9][9])
                                 if(inputMatrix[i][l] == uniqueTempVec[uniqueTempVec.size() - 1]) {
                                     solveFrame[i][k].erase(it);
                                     partialFrameChecker++;
-                                }
+                                } 
+                                // else
+                                // if(horFrame[i][l] == uniqueTempVec[uniqueTempVec.size() - 1]) {
+                                //     solveFrame[i][k].erase(it);
+                                //     partialFrameChecker++;
+                                // } else
+                                // if(verFrame[i][l] == uniqueTempVec[uniqueTempVec.size() - 1]) {
+                                //     solveFrame[i][k].erase(it);
+                                //     partialFrameChecker++;
+                                // }
                             }
                             if (partialFrameChecker== 0){ 
                                 solveFrame[i][k].resize(1);
@@ -441,14 +468,14 @@ int main()
         quitLoop++;
         if(quitLoop ==100) { // max loops that will be ran.
             intCount=81;
-            cout<<"quit loop with max loops"<<endl;
+            cout<<"quit loop with max loops: "<<quitLoop<<endl;
             cout<<endl;
         }
     }
     auto stop = high_resolution_clock::now();
     auto duration = duration_cast<microseconds>(stop - start);
     cout<<"After " << quitLoop<< " procedures sudoku was solved in: "<<duration.count()<< "ms" <<endl;
-    //visualiseVec3D(solveFrame); // should be all 0 for debug.
+    visualiseVec3D(solveFrame); // should be all 0 for debug with 9*9 grid.
     visualise(outputMatrix);
     writeOutfile(horFrame);
     return 0;
